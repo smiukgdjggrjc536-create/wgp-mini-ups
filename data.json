@@ -53,6 +53,7 @@
     }
   },
   "tracking": { "pixelId": "" },
+  "formspree": { "endpoint": "https://formspree.io/f/mrpzlgdl", "active": true },
   "theme": {
     "primary": "#1d4ed8",
     "primaryDark": "#1e40af",
@@ -73,7 +74,7 @@
   "seo": {
     "title": "WGP 10400mAh Mini UPS — মাত্র ৳ ২০৯৯ | ক্যাশ অন ডেলিভারি",
     "description": "লোডশেডিংয়েও ১০-১২ ঘণ্টা নিরবচ্ছিন্ন হাই-স্পিড ইন্টারনেট! WGP 10400mAh Mini UPS মাত্র ৳ ২০৯৯ — ক্যাশ অন ডেলিভারি।",
-    "ogImage": "https://YOUR-PROJECT.vercel.app/product.jpg"
+    "ogImage": "https://wgp-ups.vercel.app/product.jpg"
   },
   "message": {
     "template": "🛒 *নতুন অর্ডার — {product}*\n━━━━━━━━━━━━━━━\n👤 নাম: {name}\n📞 মোবাইল: {phone}\n📍 জেলা: {district}\n🏢 থানা/উপজেলা: {thana}\n🏠 ঠিকানা: {area}\n━━━━━━━━━━━━━━━\n📦 পণ্য: {product} × {qty}\n🚚 ডেলিভারি: {shipping}\n💰 সর্বমোট: {total}\n💵 পেমেন্ট: ক্যাশ অন ডেলিভারি\n━━━━━━━━━━━━━━━\n🆔 অর্ডার আইডি: #{oid}"
