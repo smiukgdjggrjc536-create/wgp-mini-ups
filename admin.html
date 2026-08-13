@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>এডমিন প্যানেল v2 — WGP</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#1d4ed8;--bg:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--r:12px}
+body{font-family:'Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);padding-bottom:90px}
+input,select,textarea{font-family:inherit}
+.wrap{max-width:780px;margin:0 auto;padding:0 12px}
+.topbar{position:sticky;top:0;z-index:50;background:#0f172a;color:#fff;padding:12px;display:flex;align-items:center;justify-content:space-between}
+.topbar .l a{color:#93c5fd;text-decoration:none;font-size:13px;margin-left:12px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 0;position:sticky;top:54px;z-index:40;background:var(--bg)}
+.tabs button{flex:none;background:#fff;border:1.5px solid var(--line);color:var(--muted);font-weight:600;font-size:12.5px;padding:8px 13px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.tabs button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.tab{display:none}.tab.on{display:block}
+.card{background:var(--card);border-radius:var(--r);box-shadow:0 1px 4px rgba(15,23,42,.07);padding:16px;margin-bottom:14px}
+.card h2{font-size:16px;color:#1e40af;margin-bottom:12px}
+.card h3{font-size:13px;color:var(--muted);margin:14px 0 8px}
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.f label{font-size:13px;font-weight:700}
+.f input,.f select,.f textarea{padding:11px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;outline:none;background:#fff}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,78,216,.12)}
+.f textarea{min-height:70px;resize:vertical}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.f-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:520px){.f-row,.f-row3{grid-template-columns:1fr}}
+.row{display:flex;gap:6px;margin-bottom:8px;align-items:center}
+.row input,.row textarea{flex:1;padding:10px;border:1.5px solid #cbd5e1;border-radius:9px;font-size:14px;outline:none}
+.rm{background:#fee2e2;color:#b91c1c;border:none;width:36px;height:36px;border-radius:9px;font-size:16px;cursor:pointer;flex:none;font-weight:700}
+.add{background:#eff6ff;color:#1e40af;border:1.5px dashed #93c5fd;width:100%;padding:10px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;margin-top:4px}
+.geo-block{border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:10px;background:#f8fafc}
+.geo-block summary{cursor:pointer;font-weight:600;font-size:14px}
+.savebar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line);padding:10px 12px;box-shadow:0 -3px 14px rgba(15,23,42,.12);display:flex;justify-content:center;gap:10px}
+.btn{border:none;border-radius:11px;padding:13px 22px;font-size:15px;font-weight:800;cursor:pointer;color:#fff}
+.btn.save{background:linear-gradient(90deg,#22c55e,#15803d);box-shadow:0 4px 12px rgba(21,128,61,.35)}
+.btn.ghost{background:#eef2f7;color:var(--text)}
+.btn.danger{background:#fee2e2;color:#b91c1c}
+.btn:active{transform:scale(.98)}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:99;padding:11px 20px;border-radius:10px;color:#fff;font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.25);max-width:92%;text-align:center;display:none}
+.toast.ok{background:#16a34a}.toast.err{background:#dc2626}.toast.info{background:#1d4ed8}
+.login{max-width:430px;margin:7vh auto 0;background:#fff;border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.15);padding:26px}
+.login h1{font-size:20px;color:#1e40af;text-align:center;margin-bottom:16px}
+.note{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;font-size:12.5px;border-radius:10px;padding:10px;margin-top:12px;line-height:1.7}
+.note.warn{background:#fef2f2;border-color:#fecaca;color:#b91c1c}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.dash-grid{grid-template-columns:1fr}}
+.dash-card{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:14px}
+.dash-card .k{font-size:12px;color:var(--muted);margin-bottom:4px}
+.dash-card .v{font-size:14px;font-weight:700;word-break:break-all}
+.dash-card a{color:var(--blue);text-decoration:none;font-size:14px;font-weight:700}
+.ai-chat{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.ai-chat textarea{width:100%;padding:12px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;min-height:90px;outline:none;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chips button{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;font-size:12px;font-weight:700;padding:7px 12px;border-radius:999px;cursor:pointer}
+.chips button:hover{background:#dbeafe}
+.ai-out{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13.5px;line-height:1.8;display:none;max-height:340px;overflow:auto}
+.ai-out b{color:#16a34a}
+.raw{background:#0f172a;color:#a5f3fc;font-size:11.5px;border-radius:8px;padding:10px;margin-top:8px;white-space:pre-wrap;word-break:break-word;display:none;max-height:200px;overflow:auto}
+.upload-box{border:2px dashed #93c5fd;border-radius:12px;padding:20px;text-align:center;background:#eff6ff;margin-bottom:10px;cursor:pointer}
+.upload-box p{font-size:13.5px;color:#1e40af;font-weight:600}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ================= লগইন ================= -->
+<div id="loginView" class="wrap">
+  <div class="login">
+    <h1>🔐 এডমিন প্যানেল</h1>
+    <div id="pwOnly" class="hide">
+      <div class="f"><label>পাসওয়ার্ড</label><input type="password" id="pw" placeholder="পাসওয়ার্ড দিন" autocomplete="current-password"></div>
+      <button class="btn save" style="width:100%" onclick="login()">লগইন করুন</button>
+      <div class="note">সব সেটিংস এই ব্রাউজারেই সেভ আছে। সংযোগ বদলাতে চাইলে <a href="javascript:toggleSetup()" style="color:#1d4ed8;font-weight:700">এখানে চাপুন</a>।</div>
+    </div>
+    <div id="fullSetup">
+      <div class="f"><label>পাসওয়ার্ড (কমপক্ষে ৪ অক্ষর — প্রথমবার সেট করবে)</label><input type="password" id="pw2" placeholder="নতুন পাসওয়ার্ড" autocomplete="new-password"></div>
+      <div class="f"><label>GitHub টোকেন (Fine-grained PAT)</label><input type="password" id="tk" placeholder="github_pat_..."></div>
+      <div class="f-row">
+        <div class="f"><label>Owner / Repo</label><input type="text" id="repo" placeholder="যেমন: rakibhassan/wgp-mini-ups"></div>
+        <div class="f"><label>Branch</label><input type="text" id="br" value="main"></div>
+      </div>
+      <button class="btn save" style="width:100%" onclick="login()">সেভ করে লগইন করুন</button>
+      <div class="note"><b>Owner/Repo:</b> তোমার GitHub ইউজারনেম + স্ল্যাশ + রিপোর নাম। URL না! যেমন <b>rakibhassan/wgp-mini-ups</b>। টোকেন বানানোর নিয়ম নিচের গাইডে।</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= মেইন প্যানেল ================= -->
+<div id="mainView" class="wrap" hidden>
+  <div class="topbar">
+    <div class="t">⚙️ WGP এডমিন প্যানেল v2</div>
+    <div class="l">
+      <a href="/" target="_blank">🌐 সাইট</a>
+      <a href="javascript:logout()" style="color:#fca5a5">🚪 লগআউট</a>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="on" data-t="dash">🏠 ড্যাশ</button>
+    <button data-t="brand">🎨 ব্র্যান্ড</button>
+    <button data-t="product">🛒 প্রোডাক্ট</button>
+    <button data-t="badges">🛡️ গ্যারান্টি</button>
+    <button data-t="reviews">⭐ রিভিউ</button>
+    <button data-t="faq">❓ FAQ</button>
+    <button data-t="support">💬 সাপোর্ট</button>
+    <button data-t="geo">🗺️ জেলা</button>
+    <button data-t="design">🎨 ডিজাইন</button>
+    <button data-t="seo">📊 SEO+ট্র্যাকিং</button>
+    <button data-t="ai">🤖 AI</button>
+    <button data-t="media">📷 ছবি</button>
+    <button data-t="security">🔐 নিরাপত্তা</button>
+  </div>
+
+  <!-- ড্যাশবোর্ড -->
+  <div class="tab on" id="tab-dash">
+    <div class="card">
+      <h2>🏠 ড্যাশবোর্ড</h2>
+      <div class="dash-grid">
+        <div class="dash-card"><div class="k">সাইট</div><div class="v"><a href="/" target="_blank">খুলুন ↗</a></div></div>
+        <div class="dash-card"><div class="k">এডমিন লিংক</div><div class="v" id="adminUrl" style="font-size:12px"></div></div>
+        <div class="dash-card"><div class="k">GitHub রিপো</div><div class="v" id="ghRepo"></div></div>
+        <div class="dash-card"><div class="k">ডেটা স্ট্যাটাস</div><div class="v" id="dataStatus">—</div></div>
+      </div>
+      <h3>🔧 GitHub সংযোগ টেস্ট</h3>
+      <button class="btn ghost" style="width:100%;margin-bottom:8px" onclick="testConn()">🔌 সংযোগ টেস্ট করুন</button>
+      <div id="testResult" class="note" style="display:none"></div>
+      <h3>💡 কাজের নিয়ম</h3>
+      <div class="note" style="background:#f0fdf4;border-color:#bbf7d0;color:#166534">পরিবর্তন → <b>💾 সেভ</b> → GitHub আপডেট → Vercel নিজে ডিপ্লয় → <b>~১ মিনিটে</b> সাইট লাইভ। AI দিয়ে কাজ করলে: AI বাটন → ফলাফল দেখ → <b>Apply</b> → <b>💾 সেভ</b>।</div>
+    </div>
+  </div>
+
+  <!-- ব্র্যান্ড -->
+  <div class="tab" id="tab-brand">
+    <div class="card">
+      <h2>🎨 ব্র্যান্ড ও ব্যানার</h2>
+      <div class="f"><label>ব্র্যান্ডের নাম</label><input id="bName"></div>
+      <div class="f"><label>ট্যাগলাইন</label><input id="bTag"></div>
+      <div class="f"><label>লোগো ফাইল/লিংক</label><input id="bLogo" placeholder="logo.png"></div>
+      <div class="f"><label>ব্যানারের লেখা</label><input id="bBanner"></div>
+      <div class="f-row">
+        <div class="f"><label>ব্যানার দেখাবে?</label><select id="bBannerShow"><option value="true">হ্যাঁ</option><option value="false">না</option></select></div>
+        <div class="f"><label>টাইমার দিন</label><input type="number" id="bTimerDays" min="1" max="30"></div>
+      </div>
+      <div class="f"><label>টাইমার দেখাবে?</label><select id="bTimerShow"><option value="true">হ্যাঁ</option><option value="false">না</option></select></div>
+      <div class="f"><label>ফুটার</label><input id="bFooter"></div>
+    </div>
+  </div>
+
+  <!-- প্রোডাক্ট -->
+  <div class="tab" id="tab-product">
+    <div class="card">
+      <h2>🛒 প্রোডাক্ট</h2>
+      <div class="f"><label>প্রোডাক্টের নাম</label><input id="pName"></div>
+      <div class="f"><label>মেইন টাইটেল</label><input id="pTitle"></div>
+      <div class="f"><label>সাবটাইটেল</label><input id="pSub"></div>
+      <div class="f"><label>ছবির লিংক/ফাইল</label><input id="pImg" placeholder="product.jpg"></div>
+      <div class="f"><label>ডিসকাউন্ট ব্যাজ (যেমন: ১৬% ছাড়!)</label><input id="pBadge"></div>
+      <div class="f-row3">
+        <div class="f"><label>আগের দাম (৳)</label><input type="number" id="pOld" min="0"></div>
+        <div class="f"><label>অফার দাম (৳)</label><input type="number" id="pOffer" min="0"></div>
+        <div class="f"><label>ছাড় %</label><input type="number" id="pDisc" min="0" max="100"></div>
+      </div>
+      <h3>✅ ফিচার</h3>
+      <div id="featList"></div>
+      <button class="add" onclick="addFeat()">+ ফিচার যোগ করুন</button>
+    </div>
+  </div>
+
+  <!-- গ্যারান্টি -->
+  <div class="tab" id="tab-badges">
+    <div class="card">
+      <h2>🛡️ ট্রাস্ট ব্যাজ</h2>
+      <div id="guarList"></div>
+      <button class="add" onclick="addGuar()">+ ব্যাজ যোগ করুন</button>
+    </div>
+  </div>
+
+  <!-- রিভিউ -->
+  <div class="tab" id="tab-reviews">
+    <div class="card">
+      <h2>⭐ কাস্টমার রিভিউ</h2>
+      <div id="revList"></div>
+      <button class="add" onclick="addRev()">+ রিভিউ যোগ করুন</button>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="tab" id="tab-faq">
+    <div class="card">
+      <h2>❓ FAQ</h2>
+      <div id="faqList"></div>
+      <button class="add" onclick="addFaq()">+ প্রশ্ন যোগ করুন</button>
+    </div>
+  </div>
+
+  <!-- সাপোর্ট -->
+  <div class="tab" id="tab-support">
+    <div class="card">
+      <h2>💬 হোয়াটসঅ্যাপ ও শিপিং</h2>
+      <div class="f"><label>হোয়াটসঅ্যাপ নম্বর (কান্ট্রি কোডসহ, + ছাড়া — যেমন 8801712345678)</label><input id="sWa" placeholder="8801XXXXXXXXX"></div>
+      <div class="f"><label>হোয়াটসঅ্যাপ বাটনের লেখা</label><input id="sBtn"></div>
+      <div class="f-row">
+        <div class="f"><label>ঢাকার ভেতরে (৳)</label><input type="number" id="sIn" min="0"></div>
+        <div class="f"><label>ঢাকার বাইরে (৳)</label><input type="number" id="sOut" min="0"></div>
+      </div>
+      <h3>💌 অর্ডার মেসেজ টেমপ্লেট</h3>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:6px">ব্যবহারযোগ্য ট্যাগ: {name} {phone} {district} {thana} {area} {product} {qty} {shipping} {total} {oid}</p>
+      <div class="f"><textarea id="sMsg" style="min-height:150px"></textarea></div>
+    </div>
+  </div>
+
+  <!-- জিও -->
+  <div class="tab" id="tab-geo">
+    <div class="card">
+      <h2>🗺️ জেলা ও থানা</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">প্রতিটি জেলায় প্রতিটি লাইনে একটি করে থানা লিখুন।</p>
+      <div id="geoList"></div>
+      <button class="add" onclick="addDistrict()">+ নতুন জেলা</button>
+    </div>
+  </div>
+
+  <!-- ডিজাইন -->
+  <div class="tab" id="tab-design">
+    <div class="card">
+      <h2>🎨 ডিজাইন কন্ট্রোল</h2>
+      <div class="f-row3">
+        <div class="f"><label>প্রাইমারি রঙ</label><input type="color" id="tPrimary"></div>
+        <div class="f"><label>প্রাইমারি (গাঢ়)</label><input type="color" id="tPrimaryDark"></div>
+        <div class="f"><label>দামের রঙ</label><input type="color" id="tPrice"></div>
+      </div>
+      <div class="f-row">
+        <div class="f"><label>বাটন রঙ (শুরু)</label><input type="color" id="tBtnFrom"></div>
+        <div class="f"><label>বাটন রঙ (শেষ)</label><input type="color" id="tBtnTo"></div>
+      </div>
+      <h3>👁️ সেকশন দেখানো/লুকানো</h3>
+      <div class="f-row">
+        <div class="f"><label>রিভিউ সেকশন</label><select id="sShowReviews"><option value="true">দেখাবে</option><option value="false">লুকাবে</option></select></div>
+        <div class="f"><label>FAQ সেকশন</label><select id="sShowFaq"><option value="true">দেখাবে</option><option value="false">লুকাবে</option></select></div>
+      </div>
+      <div class="f-row">
+        <div class="f"><label>হোয়াটসঅ্যাপ সেকশন</label><select id="sShowSupport"><option value="true">দেখাবে</option><option value="false">লুকাবে</option></select></div>
+        <div class="f"><label>স্টিকি বাটন</label><select id="sShowSticky"><option value="true">দেখাবে</option><option value="false">লুকাবে</option></select></div>
+      </div>
+      <h3>✍️ কাস্টম CSS (এডভান্সড)</h3>
+      <div class="f"><textarea id="cCss" placeholder="যেমন: .price-main { font-size: 40px; }"></textarea></div>
+    </div>
+  </div>
+
+  <!-- SEO -->
+  <div class="tab" id="tab-seo">
+    <div class="card">
+      <h2>📊 SEO ও ট্র্যাকিং</h2>
+      <div class="f"><label>পেজ টাইটেল (ব্রাউজার ট্যাবে)</label><input id="seoTitle"></div>
+      <div class="f"><label>মেটা ডেসক্রিপশন</label><textarea id="seoDesc"></textarea></div>
+      <div class="f"><label>Facebook শেয়ার ছবির লিংক (og:image)</label><input id="seoOg"></div>
+      <div class="f"><label>ফেসবুক Pixel ID (খালি রাখলে বন্ধ)</label><input id="pixelId"></div>
+    </div>
+  </div>
+
+  <!-- AI -->
+  <div class="tab" id="tab-ai">
+    <div class="card">
+      <h2>🤖 Gemini AI অ্যাসিস্ট্যান্ট</h2>
+      <div class="f-row">
+        <div class="f"><label>Gemini API কী</label><input type="password" id="gKey" placeholder="AIza..."></div>
+        <div class="f"><label>মডেল</label><select id="gModel">
+          <option value="gemini-2.5-flash">⚡ Gemini 2.5 Flash (রেকমেন্ডেড)</option>
+          <option value="gemini-2.5-flash-lite">🚀 Gemini 2.5 Flash-Lite (সবচেয়ে বেশি ফ্রি কোটা)</option>
+          <option value="gemini-2.5-pro">🧠 Gemini 2.5 Pro (সীমিত ফ্রি)</option>
+        </select></div>
+      </div>
+      <button class="btn ghost" style="width:100%;margin-bottom:10px" onclick="saveAIKey()">💾 API কী সেভ করুন</button>
+
+      <div class="chips" id="chips">
+        <button onclick="aiQuick('banner')">🔥 নতুন ব্যানার</button>
+        <button onclick="aiQuick('title')">🛒 টাইটেল+সাবটাইটেল</button>
+        <button onclick="aiQuick('features')">✅ ৫টা ফিচার</button>
+        <button onclick="aiQuick('reviews')">⭐ ৩টা রিভিউ</button>
+        <button onclick="aiQuick('faq')">❓ ৪টা FAQ</button>
+        <button onclick="aiQuick('whole')">🎨 পুরো পেজ রিফ্রেশ</button>
+      </div>
+
+      <div class="ai-chat">
+        <textarea id="aiPrompt" placeholder="AI-কে কী করতে চাও লিখো বাংলায়...&#10;যেমন: ব্যানারটা আরও জরুরি মনে হয় এমনভাবে লিখো, দাম ২০৯৯ রাখবে।&#10;অথবা: ফিচারগুলো আরও আকর্ষণীয় করে লিখো, ৫টা বুলেট করো।"></textarea>
+        <button class="btn save" onclick="aiSend()">🤖 AI-কে পাঠান</button>
+      </div>
+
+      <div class="ai-out" id="aiOut"></div>
+      <button class="btn save hide" id="aiApplyBtn" onclick="aiApply()" style="width:100%;margin-top:8px">✅ Apply — ফর্মে বসাও (তারপর 💾 সেভ চাপবে)</button>
+      <button class="btn ghost hide" id="aiRawBtn" onclick="toggleRaw()" style="width:100%;margin-top:6px">📄 কাঁচা JSON দেখাও</button>
+      <pre class="raw" id="aiRaw"></pre>
+    </div>
+  </div>
+
+  <!-- মিডিয়া -->
+  <div class="tab" id="tab-media">
+    <div class="card">
+      <h2>📷 ছবি আপলোড (GitHub-এ সরাসরি)</h2>
+      <label class="upload-box" for="fileLogo">
+        <p>🖼️ লোগো আপলোড করুন<br><small style="font-weight:400">PNG/JPG — নাম logo.png হিসেবে সেভ হবে</small></p>
+        <input type="file" id="fileLogo" accept="image/*" class="hide" onchange="uploadImg('logo', this)">
+      </label>
+      <label class="upload-box" for="fileProduct">
+        <p>📦 প্রোডাক্টের ছবি আপলোড করুন<br><small style="font-weight:400">JPG/PNG — নাম product.jpg হিসেবে সেভ হবে</small></p>
+        <input type="file" id="fileProduct" accept="image/*" class="hide" onchange="uploadImg('product', this)">
+      </label>
+      <div class="note">আপলোড শেষে সাইট ~১ মিনিটে নতুন ছবি দেখাবে। ছবি ১MB-র নিচে রাখলে সাইট দ্রুত খুলবে।</div>
+    </div>
+  </div>
+
+  <!-- নিরাপত্তা -->
+  <div class="tab" id="tab-security">
+    <div class="card">
+      <h2>🔐 নিরাপত্তা</h2>
+      <h3>🔑 পাসওয়ার্ড বদলান</h3>
+      <div class="f-row">
+        <div class="f"><label>নতুন পাসওয়ার্ড</label><input type="password" id="npw1"></div>
+        <div class="f"><label>আবার লিখুন</label><input type="password" id="npw2"></div>
+      </div>
+      <button class="btn save" style="width:100%;margin-bottom:14px" onclick="chgPw()">🔑 পাসওয়ার্ড বদলান</button>
+      <div class="note">পাসওয়ার্ড বদলানোর পর থেকে লগইনে শুধু <b>নতুন পাসওয়ার্ড</b>ই লাগবে — টোকেন/রিপো আগের মতোই এই ব্রাউজারে সেভ থাকবে।</div>
+      <h3>🔌 GitHub সংযোগ</h3>
+      <div class="f"><label>GitHub টোকেন</label><input type="password" id="tk2"></div>
+      <div class="f-row">
+        <div class="f"><label>Owner/Repo</label><input id="repo2"></div>
+        <div class="f"><label>Branch</label><input id="br2" value="main"></div>
+      </div>
+      <button class="btn save" style="width:100%;margin-bottom:14px" onclick="saveLocal()">💾 সংযোগ সেভ করুন</button>
+      <div style="display:flex;gap:10px">
+        <button class="btn ghost" style="flex:1" onclick="logout()">🚪 লগআউট</button>
+        <button class="btn danger" style="flex:1" onclick="resetAll()">🗑️ সব রিসেট</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="savebar">
+    <button class="btn save" onclick="save()">💾 সব পরিবর্তন সেভ করুন</button>
+    <button class="btn ghost" onclick="loadData()">📥 রিলোড</button>
+  </div>
+</div>
+
+<script>
+var $=function(id){return document.getElementById(id)};
+var LS={P:'wgp_pw',T:'wgp_token',R:'wgp_repo',B:'wgp_branch',G:'wgp_gemini',GM:'wgp_gemini_model'};
+var DATA=null,SHA=null,AI_CHANGES=null;
+
+/* ---------- ইউটিল ---------- */
+function b64(s){return btoa(unescape(encodeURIComponent(s)))}
+function unb64(s){return decodeURIComponent(escape(atob(s)))}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+async function sha256(s){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.prototype.map.call(new Uint8Array(b),function(x){return('0'+x.toString(16)).slice(-2)}).join('')}
+function deepMerge(base,extra){for(var k in extra){if(extra[k]&&typeof extra[k]==='object'&&!Array.isArray(extra[k])){if(!base[k]||typeof base[k]!=='object'||Array.isArray(base[k]))base[k]={};deepMerge(base[k],extra[k])}else base[k]=extra[k]}return base}
+var toastTimer;
+function toast(msg,type){var t=$('toast');t.textContent=msg;t.className='toast '+(type||'ok');t.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.style.display='none'},4000)}
+
+/* ---------- ডিফল্ট ডেটা (data.json না থাকলেও প্যানেল চলবে) ---------- */
+function defaultData(){return{
+brand:{name:'WGP Mini UPS BD',tagline:'লোডশেডিংয়েও আপনার ওয়াইফাই থাকবে ১০০% সচল!',logo:'logo.png'},
+banner:{text:'🔥 ফ্ল্যাশ সেল! সীমিত স্টকের ওপর বিশেষ অফার!',show:true},
+timer:{days:7,show:true},
+product:{name:'WGP 10400mAh Mini UPS',title:'WGP 10400mAh Mini UPS — WiFi Router & ONU Backup',subtitle:'লোডশেডিংয়েও ১০-১২ ঘণ্টা নিরবচ্ছিন্ন হাই-স্পিড ইন্টারনেট!',badge:'১৬% ছাড়!',image:'product.jpg',fallbackImage:'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80',originalPrice:2499,offerPrice:2099,discountPercent:16},
+guarantees:['🛡️ ৩০ দিনের ওয়ারেন্টি','🔄 ৭ দিনের ইনস্ট্যান্ট রিপ্লেসমেন্ট গ্যারান্টি','🚚 ১০০% ক্যাশ অন ডেলিভারি (Cash on Delivery)'],
+features:['১০-১২ ঘণ্টা পর্যন্ত ইন্টারনেট ব্যাকআপ।','রাউটার ও ONU একসাথে চালানোর সুবিধা।','স্মার্ট ওভারচার্জিং ও শর্ট-সার্কিট প্রোটেকশন।'],
+reviews:[{name:'রাকিব হাসান',location:'ঢাকা',stars:5,text:'লোডশেডিংয়ের সময়ও ইন্টারনেট চলছে! একদম পারফেক্ট।'},{name:'সাব্বির আহমেদ',location:'চট্টগ্রাম',stars:5,text:'রাউটার আর ONU দুইটাই একসাথে চালায়।'},{name:'তানিয়া আক্তার',location:'রাজশাহী',stars:4,text:'পণ্য দেখে নিয়ে টাকা দিয়েছি, প্রোডাক্ট ভালো।'}],
+faq:[{q:'ডেলিভারি কতদিনের মধ্যে পাবো?',a:'ঢাকার ভেতরে ১-২ দিন, বাইরে ২-৪ দিন।'},{q:'ক্যাশ অন ডেলিভারি কীভাবে কাজ করে?',a:'পণ্য হাতে পেয়ে টাকা দেবেন, আগে কিছু পাঠাতে হবে না।'},{q:'প্রোডাক্টে সমস্যা হলে?',a:'৩০ দিনের ওয়ারেন্টি আছে, হোয়াটসঅ্যাপে মেসেজ দিন।'}],
+support:{whatsapp:'8801XXXXXXXXX',buttonText:'হোয়াটসঅ্যাপে মেসেজ দিন'},
+shipping:{inside:70,outside:130},
+geo:{districts:['ঢাকা','চট্টগ্রাম','রাজশাহী','খুলনা','সিলেট','বরিশাল','রংপুর','ময়মনসিংহ'],thanas:{
+'ঢাকা':['ধানমন্ডি','গুলশান','বনানী','মিরপুর','মোহাম্মদপুর','উত্তরা','সাভার','আশুলিয়া'],
+'চট্টগ্রাম':['কোতোয়ালী','পাঁচলাইশ','চান্দগাঁও','পতেঙ্গা','হালিশহর','সীতাকুণ্ড','রাউজান'],
+'রাজশাহী':['বোয়ালিয়া','মতিহার','রাজপাড়া','পবা','গোদাগাড়ি','তানোর'],
+'খুলনা':['সোনাডাঙ্গা','খালিশপুর','দৌলতপুর','রূপসা','ডুমুরিয়া','ফুলতলা'],
+'সিলেট':['সিলেট সদর','দক্ষিণ সুরমা','বিয়ানীবাজার','গোলাপগঞ্জ','জকিগঞ্জ'],
+'বরিশাল':['কোতোয়ালী','বন্দর','বাবুগঞ্জ','বাকেরগঞ্জ','মুলাদী'],
+'রংপুর':['কোতোয়ালী','হারাগাছ','তাজহাট','বদরগঞ্জ','মিঠাপুকুর'],
+'ময়মনসিংহ':['কোতোয়ালী','মুক্তাগাছা','ভালুকা','ত্রিশাল','গফরগাঁও','ফুলপুর']}},
+tracking:{pixelId:''},
+theme:{primary:'#1d4ed8',primaryDark:'#1e40af',priceColor:'#dc2626',btnFrom:'#22c55e',btnTo:'#15803d'},
+sections:{showBanner:true,showTimer:true,showBadges:true,showFeatures:true,showReviews:true,showSupport:true,showFaq:true,showSticky:true},
+seo:{title:'WGP 10400mAh Mini UPS — মাত্র ৳ ২০৯৯ | ক্যাশ অন ডেলিভারি',description:'লোডশেডিংয়েও ১০-১২ ঘণ্টা নিরবচ্ছিন্ন হাই-স্পিড ইন্টারনেট! ক্যাশ অন ডেলিভারি।',ogImage:''},
+message:{template:'🛒 *নতুন অর্ডার — {product}*\n━━━━━━━━━━━━━━━\n👤 নাম: {name}\n📞 মোবাইল: {phone}\n📍 জেলা: {district}\n🏢 থানা/উপজেলা: {thana}\n🏠 ঠিকানা: {area}\n━━━━━━━━━━━━━━━\n📦 পণ্য: {product} × {qty}\n🚚 ডেলিভারি: {shipping}\n💰 সর্বমোট: {total}\n💵 পেমেন্ট: ক্যাশ অন ডেলিভারি\n━━━━━━━━━━━━━━━\n🆔 অর্ডার আইডি: #{oid}'},
+custom:{css:''},
+footer:'© 2026 WGP Mini UPS BD. সর্বস্বত্ব সংরক্ষিত।'}}
+
+/* ---------- ট্যাব ---------- */
+$('tabs').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;document.querySelectorAll('#tabs button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});$('tab-'+b.dataset.t).classList.add('on')});
+
+/* ---------- লগইন ---------- */
+(function initLogin(){
+  if(localStorage.getItem(LS.T)&&localStorage.getItem(LS.R)){
+    $('pwOnly').classList.remove('hide');$('fullSetup').classList.add('hide');
+  }else{
+    $('pwOnly').classList.add('hide');$('fullSetup').classList.remove('hide');
+    $('repo').value=localStorage.getItem(LS.R)||'';$('br').value=localStorage.getItem(LS.B)||'main';
+  }
+  $('gKey').value=localStorage.getItem(LS.G)||'';$('gModel').value=localStorage.getItem(LS.GM)||'gemini-2.5-flash';
+})();
+function toggleSetup(){['pwOnly','fullSetup'].forEach(function(i){$(i).classList.toggle('hide')})}
+
+async function login(){
+  var repo=$('repo').value.trim()||localStorage.getItem(LS.R);
+  var tk=$('tk').value.trim()||localStorage.getItem(LS.T);
+  var br=$('br').value.trim()||localStorage.getItem(LS.B)||'main';
+  var pw=$('pw').value||$('pw2').value;
+  if(!pw){toast('পাসওয়ার্ড লিখুন','err');return}
+  if(!tk||!repo){toast('টোকেন ও Owner/Repo দিন','err');return}
+  if(repo.split('/').length!==2){toast('Owner/Repo ভুল! যেমন: rakibhassan/wgp-mini-ups','err');return}
+  var h=await sha256(pw),stored=localStorage.getItem(LS.P);
+  if(stored&&stored!==h){toast('ভুল পাসওয়ার্ড!','err');return}
+  localStorage.setItem(LS.P,h);localStorage.setItem(LS.T,tk);localStorage.setItem(LS.R,repo);localStorage.setItem(LS.B,br);
+  enterPanel();
+}
+function enterPanel(){
+  $('loginView').hidden=true;$('mainView').hidden=false;
+  $('ghRepo').textContent=localStorage.getItem(LS.R);
+  $('adminUrl').textContent=location.origin+'/admin.html';
+  loadData();
+}
+function logout(){localStorage.removeItem(LS.P);location.reload()}
+function resetAll(){if(confirm('সত্যিই সব রিসেট করবেন?')){localStorage.clear();location.reload()}}
+
+/* ---------- GitHub ---------- */
+async function gh(path,opts){
+  var r=await fetch('https://api.github.com'+path,Object.assign({headers:{'Authorization':'Bearer '+localStorage.getItem(LS.T),'Accept':'application/vnd.github+json','Content-Type':'application/json'}},opts||{}));
+  if(!r.ok){var j;try{j=await r.json()}catch(e){}throw new Error((j&&(j.message||(j.errors&&j.errors[0]&&j.errors[0].message)))||('HTTP '+r.status))}
+  return r.json();
+}
+
+async function testConn(){
+  var out=$('testResult');out.style.display='block';out.innerHTML='⏳ চেক হচ্ছে...';out.className='note';
+  try{
+    var repo=await gh('/repos/'+localStorage.getItem(LS.R));
+    var f=await gh('/repos/'+localStorage.getItem(LS.R)+'/contents/data.json?ref='+localStorage.getItem(LS.B));
+    out.innerHTML='✅ সংযোগ ঠিক আছে! রিপো: <b>'+repo.full_name+'</b><br>✅ data.json পাওয়া গেছে।';
+    out.className='note';out.style.background='#f0fdf4';out.style.borderColor='#bbf7d0';out.style.color='#166534';
+  }catch(e){
+    var m=e.message;
+    var tip=m.indexOf('Not Found')>-1?'⚠️ রিপো বা data.json খুঁজে পাওয়া যায়নি — Owner/Repo ঠিক আছে কিনা আর data.json আপলোড হয়েছে কিনা দেখো।'
+      :m.indexOf('Bad credentials')>-1?'⚠️ টোকেন ভুল বা মেয়াদ শেষ — নতুন টোকেন বানাও (Contents: Read and write)।'
+      :m.indexOf('Requires authentication')>-1?'⚠️ টোকেন দেওয়া নেই — টোকেন যোগ করো।'
+      :m.indexOf('Forbidden')>-1?'⚠️ টোকেনে Contents পারমিশন নেই — টোকেনে Read and write দাও।'
+      :'⚠️ '+m;
+    out.innerHTML='❌ <b>ব্যর্থ:</b> '+esc(m)+'<br>'+tip;
+    out.className='note warn';
+  }
+}
+
+async function loadData(){
+  $('dataStatus').textContent='⏳ লোড হচ্ছে...';
+  try{
+    var f=await gh('/repos/'+localStorage.getItem(LS.R)+'/contents/data.json?ref='+localStorage.getItem(LS.B));
+    SHA=f.sha;DATA=deepMerge(defaultData(),JSON.parse(unb64(f.content)));
+    $('dataStatus').textContent='✅ data.json থেকে লোড হয়েছে';
+    toast('✅ ডেটা লোড হয়েছে',1);
+  }catch(e){
+    DATA=defaultData();SHA=null;
+    $('dataStatus').textContent='⚠️ data.json পাওয়া যায়নি — ডিফল্ট লোড (সেভ চাপলে তৈরি হয়ে যাবে)';
+    toast('data.json নেই — ডিফল্ট লোড হয়েছে। সেভ চাপলেই বানিয়ে নেবে।','info');
+  }
+  fillForms();
+}
+
+/* ---------- ফর্ম ফিল ---------- */
+function fillForms(){
+  $('bName').value=DATA.brand.name;$('bTag').value=DATA.brand.tagline;$('bLogo').value=DATA.brand.logo;
+  $('bBanner').value=DATA.banner.text;$('bBannerShow').value=DATA.banner.show?'true':'false';
+  $('bTimerDays').value=DATA.timer.days;$('bTimerShow').value=DATA.timer.show?'true':'false';$('bFooter').value=DATA.footer;
+  $('pName').value=DATA.product.name;$('pTitle').value=DATA.product.title;$('pSub').value=DATA.product.subtitle;
+  $('pImg').value=DATA.product.image;$('pBadge').value=DATA.product.badge||'';
+  $('pOld').value=DATA.product.originalPrice;$('pOffer').value=DATA.product.offerPrice;$('pDisc').value=DATA.product.discountPercent;
+  $('sWa').value=DATA.support.whatsapp;$('sBtn').value=DATA.support.buttonText;
+  $('sIn').value=DATA.shipping.inside;$('sOut').value=DATA.shipping.outside;$('sMsg').value=DATA.message.template;
+  $('tPrimary').value=DATA.theme.primary;$('tPrimaryDark').value=DATA.theme.primaryDark;
+  $('tPrice').value=DATA.theme.priceColor;$('tBtnFrom').value=DATA.theme.btnFrom;$('tBtnTo').value=DATA.theme.btnTo;
+  $('sShowReviews').value=DATA.sections.showReviews?'true':'false';$('sShowFaq').value=DATA.sections.showFaq?'true':'false';
+  $('sShowSupport').value=DATA.sections.showSupport?'true':'false';$('sShowSticky').value=DATA.sections.showSticky?'true':'false';
+  $('cCss').value=DATA.custom.css||'';
+  $('seoTitle').value=DATA.seo.title;$('seoDesc').value=DATA.seo.description;$('seoOg').value=DATA.seo.ogImage||'';
+  $('pixelId').value=DATA.tracking.pixelId||'';
+  $('tk2').value=localStorage.getItem(LS.T)||'';$('repo2').value=localStorage.getItem(LS.R)||'';$('br2').value=localStorage.getItem(LS.B)||'main';
+  renderFeat();renderGuar();renderRev();renderFaq();renderGeo();
+}
+
+function collect(){
+  DATA.brand.name=$('bName').value.trim();DATA.brand.tagline=$('bTag').value.trim();DATA.brand.logo=$('bLogo').value.trim()||'logo.png';
+  DATA.banner.text=$('bBanner').value.trim();DATA.banner.show=$('bBannerShow').value==='true';
+  DATA.timer.days=Math.max(1,+$('bTimerDays').value||7);DATA.timer.show=$('bTimerShow').value==='true';DATA.footer=$('bFooter').value.trim();
+  DATA.product.name=$('pName').value.trim();DATA.product.title=$('pTitle').value.trim();DATA.product.subtitle=$('pSub').value.trim();
+  DATA.product.image=$('pImg').value.trim()||'product.jpg';DATA.product.badge=$('pBadge').value.trim();
+  DATA.product.originalPrice=+$('pOld').value||0;DATA.product.offerPrice=+$('pOffer').value||0;DATA.product.discountPercent=Math.max(0,Math.min(100,+$('pDisc').value||0));
+  DATA.support.whatsapp=$('sWa').value.replace(/[^0-9]/g,'');DATA.support.buttonText=$('sBtn').value.trim()||'হোয়াটসঅ্যাপে মেসেজ দিন';
+  DATA.shipping.inside=+$('sIn').value||0;DATA.shipping.outside=+$('sOut').value||0;DATA.message.template=$('sMsg').value;
+  DATA.theme.primary=$('tPrimary').value;DATA.theme.primaryDark=$('tPrimaryDark').value;DATA.theme.priceColor=$('tPrice').value;
+  DATA.theme.btnFrom=$('tBtnFrom').value;DATA.theme.btnTo=$('tBtnTo').value;
+  DATA.sections.showReviews=$('sShowReviews').value==='true';DATA.sections.showFaq=$('sShowFaq').value==='true';
+  DATA.sections.showSupport=$('sShowSupport').value==='true';DATA.sections.showSticky=$('sShowSticky').value==='true';
+  DATA.custom.css=$('cCss').value;
+  DATA.seo.title=$('seoTitle').value.trim();DATA.seo.description=$('seoDesc').value.trim();DATA.seo.ogImage=$('seoOg').value.trim();
+  DATA.tracking.pixelId=$('pixelId').value.trim();
+  DATA.features=collectList('featList');DATA.guarantees=collectList('guarList');
+  DATA.reviews=collectRev();DATA.faq=collectFaq();collectGeo();
+}
+
+/* ---------- সেভ ---------- */
+async function save(){
+  if(!DATA){toast('ডেটা লোড হয়নি — আবার চেষ্টা করো','err');return}
+  try{
+    collect();
+    var body={message:'Admin v2 update — '+new Date().toISOString(),content:b64(JSON.stringify(DATA,null,2)),branch:localStorage.getItem(LS.B)};
+    if(SHA)body.sha=SHA;
+    var f=await gh('/repos/'+localStorage.getItem(LS.R)+'/contents/data.json',{method:'PUT',body:JSON.stringify(body)});
+    SHA=f.content.sha;
+    toast('✅ সেভ হয়েছে! সাইট ~১ মিনিটে আপডেট হবে।',1);
+    $('dataStatus').textContent='✅ সেভ হয়েছে — '+new Date().toLocaleTimeString('bn-BD');
+  }catch(e){
+    var tip=e.message.indexOf('sha')>-1?'GitHub-এ কেউ পরিবর্তন করেছে — 📥 রিলোড চেপে আবার সেভ করো।'
+      :e.message.indexOf('Bad credentials')>-1?'টোকেন ভুল/মেয়াদ শেষ — নিরাপত্তা ট্যাবে নতুন টোকেন দাও।'
+      :e.message.indexOf('Forbidden')>-1?'টোকেনে Contents: Read and write পারমিশন নেই।'
+      :e.message.indexOf('Not Found')>-1?'রিপো ঠিক আছে কিনা দেখো।';
+    toast('❌ সেভ ব্যর্থ: '+e.message+' '+tip,'err');
+  }
+}
+
+/* ---------- লিস্ট এডিটর ---------- */
+function renderList(id,arr,ph){$(id).innerHTML=arr.map(function(v,i){return '<div class="row"><input data-i="'+i+'" value="'+esc(v)+'" placeholder="'+ph+'"><button type="button" class="rm" data-rm="'+i+'">✕</button></div>'}).join('')}
+function collectList(id){var out=[];$(id).querySelectorAll('input[data-i]').forEach(function(inp){var v=inp.value.trim();if(v)out.push(v)});return out}
+function bindRm(id,arr,fn){$(id).addEventListener('click',function(e){var b=e.target.closest('.rm');if(!b)return;arr.splice(+b.dataset.rm,1);fn()})}
+function renderFeat(){renderList('featList',DATA.features,'ফিচার লিখুন')}
+function addFeat(){DATA.features.push('');renderFeat()}
+function renderGuar(){renderList('guarList',DATA.guarantees,'গ্যারান্টি লিখুন')}
+function addGuar(){DATA.guarantees.push('');renderGuar()}
+bindRm('featList',DATA&&DATA.features||[],renderFeat);bindRm('guarList',DATA&&DATA.guarantees||[],renderGuar);
+
+/* ---------- রিভিউ ---------- */
+function renderRev(){
+  $('revList').innerHTML=DATA.reviews.map(function(r,i){
+    return '<div class="geo-block"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b>রিভিউ #'+(i+1)+'</b><button type="button" class="rm" data-rm="'+i+'">✕</button></div>'+
+    '<div class="f-row" style="margin-bottom:8px"><div class="f" style="margin-bottom:0"><label>নাম</label><input data-f="name" data-i="'+i+'" value="'+esc(r.name)+'"></div>'+
+    '<div class="f" style="margin-bottom:0"><label>জেলা</label><input data-f="location" data-i="'+i+'" value="'+esc(r.location)+'"></div></div>'+
+    '<div class="f" style="margin-bottom:8px"><label>রেটিং (১-৫)</label><input type="number" data-f="stars" data-i="'+i+'" min="1" max="5" value="'+r.stars+'"></div>'+
+    '<div class="f" style="margin-bottom:0"><label>রিভিউ</label><textarea data-f="text" data-i="'+i+'">'+esc(r.text)+'</textarea></div></div>'}).join('');
+}
+function collectRev(){var out=[];$('revList').querySelectorAll('.geo-block').forEach(function(b){var n=b.querySelector('[data-f="name"]').value.trim(),l=b.querySelector('[data-f="location"]').value.trim(),s=Math.max(1,Math.min(5,+b.querySelector('[data-f="stars"]').value||5)),t=b.querySelector('[data-f="text"]').value.trim();if(n&&t)out.push({name:n,location:l,stars:s,text:t})});return out}
+function addRev(){DATA.reviews.push({name:'',location:'',stars:5,text:''});renderRev()}
+bindRm('revList',DATA&&DATA.reviews||[],renderRev);
+
+/* ---------- FAQ ---------- */
+function renderFaq(){
+  $('faqList').innerHTML=DATA.faq.map(function(f,i){
+    return '<div class="geo-block"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b>প্রশ্ন #'+(i+1)+'</b><button type="button" class="rm" data-rm="'+i+'">✕</button></div>'+
+    '<div class="f" style="margin-bottom:8px"><label>প্রশ্ন</label><input data-f="q" data-i="'+i+'" value="'+esc(f.q)+'"></div>'+
+    '<div class="f" style="margin-bottom:0"><label>উত্তর</label><textarea data-f="a" data-i="'+i+'">'+esc(f.a)+'</textarea></div></div>'}).join('');
+}
+function collectFaq(){var out=[];$('faqList').querySelectorAll('.geo-block').forEach(function(b){var q=b.querySelector('[data-f="q"]').value.trim(),a=b.querySelector('[data-f="a"]').value.trim();if(q&&a)out.push({q:q,a:a})});return out}
+function addFaq(){DATA.faq.push({q:'',a:''});renderFaq()}
+bindRm('faqList',DATA&&DATA.faq||[],renderFaq);
+
+/* ---------- জিও ---------- */
+var GEO=[];
+function renderGeo(){
+  $('geoList').innerHTML=GEO.map(function(g,i){
+    return '<div class="geo-block"><details'+(i===GEO.length-1?' open':'')+'><summary>📍 '+(g.name||('জেলা #'+(i+1)))+'</summary>'+
+    '<div class="row"><input data-geo="name" data-i="'+i+'" value="'+esc(g.name)+'" placeholder="জেলার নাম"><button type="button" class="rm" data-geo-rm="'+i+'">✕</button></div>'+
+    '<textarea data-geo="thanas" data-i="'+i+'" style="width:100%;padding:10px;border:1.5px solid #cbd5e1;border-radius:9px;font-size:14px;min-height:80px">'+esc(g.thanas.join('\n'))+'</textarea></details></div>'}).join('');
+}
+function collectGeo(){var d=[],t={};GEO.forEach(function(g){var n=g.name.trim();if(!n)return;d.push(n);t[n]=g.thanas.map(function(x){return x.trim()}).filter(Boolean)});DATA.geo.districts=d;DATA.geo.thanas=t}
+function addDistrict(){GEO.push({name:'',thanas:[]});renderGeo()}
+function fillGeoFromData(){GEO=(DATA.geo.districts||[]).map(function(d){return{name:d,thanas:(DATA.geo.thanas&&DATA.geo.thanas[d])||[]}});renderGeo()}
+$('geoList').addEventListener('input',function(e){var inp=e.target.closest('[data-geo]');if(!inp)return;var g=GEO[+inp.dataset.i];if(!g)return;if(inp.dataset.geo==='name')g.name=inp.value;else g.thanas=inp.value.split('\n')});
+$('geoList').addEventListener('click',function(e){var b=e.target.closest('[data-geo-rm]');if(!b)return;GEO.splice(+b.dataset.geoRm,1);renderGeo()});
+
+/* ---------- নিরাপত্তা ---------- */
+async function chgPw(){
+  var p1=$('npw1').value,p2=$('npw2').value;
+  if(!p1||p1.length<4){toast('কমপক্ষে ৪ অক্ষরের পাসওয়ার্ড দিন','err');return}
+  if(p1!==p2){toast('দুইটা পাসওয়ার্ড মিলছে না!','err');return}
+  localStorage.setItem(LS.P,await sha256(p1));
+  $('npw1').value='';$('npw2').value='';
+  toast('✅ পাসওয়ার্ড বদলানো হয়েছে! এবার থেকে শুধু এই নতুন পাসওয়ার্ডেই লগইন হবে।',1);
+}
+function saveLocal(){
+  var tk=$('tk2').value.trim(),repo=$('repo2').value.trim();
+  if(!tk||!repo){toast('টোকেন ও রিপো দিন','err');return}
+  if(repo.split('/').length!==2){toast('Owner/Repo ভুল','err');return}
+  localStorage.setItem(LS.T,tk);localStorage.setItem(LS.R,repo);localStorage.setItem(LS.B,$('br2').value.trim()||'main');
+  $('ghRepo').textContent=repo;toast('✅ সংযোগ সেভ হয়েছে',1);
+}
+
+/* ---------- Gemini AI ---------- */
+function saveAIKey(){
+  var k=$('gKey').value.trim();
+  if(k){localStorage.setItem(LS.G,k)}else{localStorage.removeItem(LS.G)}
+  localStorage.setItem(LS.GM,$('gModel').value);
+  toast('✅ AI সেটিংস সেভ হয়েছে',1);
+}
+function AI_SYSTEM(){
+  return 'তুমি একজন অভিজ্ঞ ই-কমার্স ল্যান্ডিং পেজ কনটেন্ট রাইটার ও অপ্টিমাইজার। ব্যবহারকারীর নির্দেশ অনুযায়ী প্রদত্ত JSON ডেটার শুধু প্রয়োজনীয় ফিল্ডের মান (value) পরিবর্তন করবে।\nনিয়ম:\n১. শুধুমাত্র বৈধ JSON ফেরত দেবে — অন্য কোনো লেখা, ব্যাখ্যা, মার্কডাউন একদম না।\n২. JSON-এর স্ট্রাকচার, ফিল্ডের নাম ও টাইপ (string/number/boolean/array) অপরিবর্তিত রাখবে।\n৩. যা পরিবর্তন করতে বলা হয়নি, সেটা আগের মানেই রাখবে।\n৪. বাংলা কনটেন্ট স্বাভাবিক, প্ররোচনামূলক, বানান-শুদ্ধ ও প্রফেশনাল হবে।\n৫. দাম/ছাড়% নিজে হিসাব করবে না যতক্ষণ না বলা হয়।\n৬. arrays (features, guarantees, reviews, faq) নতুন আইটেম যোগ বা বাদ করতে পারবে — কিন্তু প্রতিটি আইটেমের ফিল্ড স্ট্রাকচার (যেমন reviews-এ name, location, stars, text) একই রাখবে।';
+}
+async function geminiCall(instruction){
+  var key=localStorage.getItem(LS.G);
+  if(!key){toast('আগে AI ট্যাবে Gemini API কী দিয়ে সেভ করো','err');return null}
+  var model=localStorage.getItem(LS.GM)||'gemini-2.5-flash';
+  var out=$('aiOut');out.style.display='block';out.innerHTML='⏳ AI চিন্তা করছে...';
+  try{
+    var r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent?key='+key,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        systemInstruction:{parts:[{text:AI_SYSTEM()}]},
+        contents:[{role:'user',parts:[{text:instruction+'\n\nনিচে বর্তমান ডেটা (JSON) — এই স্ট্রাকচার অনুযায়ীই পরিবর্তিত JSON ফেরত দেবে:\n'+JSON.stringify(DATA,null,1)}]}],
+        generationConfig:{responseMimeType:'application/json',temperature:0.7}
+      })
+    });
+    if(!r.ok){var e;try{e=await r.json()}catch(x){};var em=(e&&e.error&&e.error.message)||('HTTP '+r.status);
+      if(em.indexOf('API key')>-1)toast('❌ API কী ভুল! AI Studio থেকে নতুন কী নাও','err');
+      else if(em.indexOf('quota')>-1||em.indexOf('429')>-1)toast('❌ ফ্রি কোটা শেষ / অনেক রিকোয়েস্ট — ১ মিনিট পর চেষ্টা করো','err');
+      else toast('❌ '+em,'err');
+      out.innerHTML='❌ '+esc(em);return null}
+    var j=await r.json();
+    var text=(j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts&&j.candidates[0].content.parts[0].text)||'';
+    var cleaned=text.replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'');
+    return JSON.parse(cleaned);
+  }catch(err){toast('❌ AI ব্যর্থ: '+err.message,'err');out.innerHTML='❌ '+esc(err.message);return null}
+}
+async function aiSend(){
+  var ins=$('aiPrompt').value.trim();
+  if(!ins){toast('AI-কে কী করতে চাও লিখো','err');return}
+  var res=await geminiCall(ins);
+  if(res){showAI(res)}
+}
+async function aiQuick(type){
+  var ins='';
+  if(type==='banner')ins='একটা নতুন, আরও বেশি জরুরি-ভাব তৈরি করা ফ্ল্যাশ সেল ব্যানার টেক্সট লিখো (ইমোজিসহ, ২০-৩৫ অক্ষরের মধ্যে)। শুধু banner.text পরিবর্তন করো।';
+  if(type==='title')ins='প্রোডাক্টের main title আর subtitle নতুন করে লেখো — আকর্ষণীয়, উপকারিতা-কেন্দ্রিক (বাংলা)। product.title ও product.subtitle পরিবর্তন করো।';
+  if(type==='features')ins='৫টা শক্তিশালী ফিচার বুলেট লিখো (বাংলা, প্রতিটি ১ লাইনের)। features অ্যারেটা ৫টা আইটেমে রিপ্লেস করো।';
+  if(type==='reviews')ins='৩টা বাস্তবসম্মত কাস্টমার রিভিউ লিখো (বাংলা নাম+জেলা+রেটিং ৪-৫+বিশ্বাসযোগ্য লেখা)। reviews অ্যারেটা রিপ্লেস করো।';
+  if(type==='faq')ins='৪টা সাধারণ কাস্টমার প্রশ্ন-উত্তর লিখো (ডেলিভারি, পেমেন্ট, ওয়ারেন্টি, ব্যবহার)। faq অ্যারেটা রিপ্লেস করো।';
+  if(type==='whole')ins='পুরো পেজের কপি নতুন করে রিফ্রেশ করো: banner.text, product.title, product.subtitle, features (৫টা), reviews (৩টা), faq (৪টা) — সব বাংলায়, একই ব্র্যান্ড টোনে, দাম অপরিবর্তিত রাখো।';
+  var res=await geminiCall(ins);
+  if(res){showAI(res)}
+}
+function showAI(res){
+  AI_CHANGES=res;
+  var out=$('aiOut');out.style.display='block';
+  var changes=[];
+  function diffStr(oldV,newV,k){
+    if(oldV===undefined){changes.push('➕ <b>'+k+'</b>: নতুন যোগ');return}
+    if(JSON.stringify(oldV)!==JSON.stringify(newV)){
+      if(typeof newV==='object')changes.push('✏️ <b>'+k+'</b>: '+((Array.isArray(newV)?newV.length+'টি আইটেম':Object.keys(newV).length+'টি ফিল্ড')+' পরিবর্তিত'));
+      else changes.push('✏️ <b>'+k+'</b>: “'+esc(oldV)+'” → “'+esc(newV)+'”');
+    }
+  }
+  Object.keys(res).forEach(function(k){diffStr(DATA[k],res[k],k)});
+  out.innerHTML=(changes.length?changes.join('<br>'):'⚠️ কোনো পরিবর্তন পাওয়া যায়নি')+'<br><br><small style="color:#64748b">নিচের সবুজ বাটনে চাপলে পরিবর্তনগুলো ফর্মে বসে যাবে — তারপর 💾 সেভ চাপলেই লাইভ হবে।</small>';
+  $('aiApplyBtn').classList.remove('hide');$('aiRawBtn').classList.remove('hide');$('aiRaw').textContent=JSON.stringify(res,null,2);$('aiRaw').style.display='none';
+  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function aiApply(){
+  if(!AI_CHANGES){toast('কোনো পরিবর্তন নেই','err');return}
+  DATA=deepMerge(DATA,AI_CHANGES);
+  fillForms();
+  toast('✅ AI-র পরিবর্তন ফর্মে বসানো হয়েছে — এখন 💾 সেভ চাপো!',1);
+  $('aiApplyBtn').classList.add('hide');$('aiRawBtn').classList.add('hide');$('aiOut').style.display='none';
+}
+function toggleRaw(){var r=$('aiRaw');r.style.display=r.style.display==='none'?'block':'none'}
+
+/* ---------- ছবি আপলোড ---------- */
+function uploadImg(type,input){
+  var file=input.files[0];if(!file)return;
+  if(file.size>2*1024*1024){toast('ছবি ২MB-র নিচে রাখো — বড় হলে সাইট ধীর হবে','err');return}
+  var reader=new FileReader();
+  reader.onload=async function(){
+    var b64data=reader.result.split(',')[1];
+    var path=(type==='logo')?'logo.png':'product.jpg';
+    toast('⏳ আপলোড হচ্ছে...','info');
+    try{
+      var sha=null;
+      try{var ex=await gh('/repos/'+localStorage.getItem(LS.R)+'/contents/'+path+'?ref='+localStorage.getItem(LS.B));sha=ex.sha}catch(e){}
+      var body={message:'Upload '+path,content:b64data,branch:localStorage.getItem(LS.B)};if(sha)body.sha=sha;
+      await gh('/repos/'+localStorage.getItem(LS.R)+'/contents/'+path,{method:'PUT',body:JSON.stringify(body)});
+      if(type==='logo'){$('bLogo').value='logo.png';DATA.brand.logo='logo.png'}
+      else{$('pImg').value='product.jpg';DATA.product.image='product.jpg'}
+      toast('✅ '+path+' আপলোড হয়েছে! 💾 সেভ চাপো (ছবির রেফারেন্স ঠিক রাখতে)',1);
+    }catch(e){
+      var tip=e.message.indexOf('Bad credentials')>-1?'টোকেন ভুল/মেয়াদ শেষ':'টোকেনে Contents: Read and write পারমিশন আছে কিনা দেখো';
+      toast('❌ আপলোড ব্যর্থ: '+e.message+' — '+tip,'err');
+    }
+    input.value='';
+  };
+  reader.readAsDataURL(file);
+}
+</script>
+</body>
+</html>
