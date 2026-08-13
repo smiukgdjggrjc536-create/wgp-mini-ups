@@ -232,9 +232,10 @@ geo:{districts:['ঢাকা','চট্টগ্রাম','রাজশাহ
 'রংপুর':['কোতোয়ালী','হারাগাছ','তাজহাট','বদরগঞ্জ','মিঠাপুকুর'],
 'ময়মনসিংহ':['কোতোয়ালী','মুক্তাগাছা','ভালুকা','ত্রিশাল','গফরগাঁও','ফুলপুর']}},
 tracking:{pixelId:''},
+formspree:{endpoint:'https://formspree.io/f/mrpzlgdl',active:true},
 theme:{primary:'#1d4ed8',primaryDark:'#1e40af',priceColor:'#dc2626',btnFrom:'#22c55e',btnTo:'#15803d'},
 sections:{showBanner:true,showTimer:true,showBadges:true,showFeatures:true,showReviews:true,showSupport:true,showFaq:true,showSticky:true},
-seo:{title:'WGP 10400mAh Mini UPS — মাত্র ৳ ২০৯৯ | ক্যাশ অন ডেলিভারি',description:'লোডশেডিংয়েও ১০-১২ ঘণ্টা নিরবচ্ছিন্ন হাই-স্পিড ইন্টারনেট! ক্যাশ অন ডেলিভারি।',ogImage:''},
+seo:{title:'WGP 10400mAh Mini UPS — মাত্র ৳ ২০৯৯ | ক্যাশ অন ডেলিভারি',description:'লোডশেডিংয়েও ১০-১২ ঘণ্টা নিরবচ্ছিন্ন হাই-স্পিড ইন্টারনেট! ক্যাশ অন ডেলিভারি।',ogImage:'https://wgp-ups.vercel.app/product.jpg'},
 message:{template:'🛒 *নতুন অর্ডার — {product}*\n━━━━━━━━━━━━━━━\n👤 নাম: {name}\n📞 মোবাইল: {phone}\n📍 জেলা: {district}\n🏢 থানা/উপজেলা: {thana}\n🏠 ঠিকানা: {area}\n━━━━━━━━━━━━━━━\n📦 পণ্য: {product} × {qty}\n🚚 ডেলিভারি: {shipping}\n💰 সর্বমোট: {total}\n💵 পেমেন্ট: ক্যাশ অন ডেলিভারি\n━━━━━━━━━━━━━━━\n🆔 অর্ডার আইডি: #{oid}'},
 custom:{css:''},
 footer:'© 2026 WGP Mini UPS BD. সর্বস্বত্ব সংরক্ষিত।'};
@@ -283,7 +284,7 @@ function render(){
 
   /* টাইমার */
   if(data.timer&&data.timer.show){
-    var tl=data.timer.target||(Date.now()+data.timer.days*864e5);
+    var tl=localStorage.getItem('wgp_timer')||data.timer.target||(Date.now()+data.timer.days*864e5);
     localStorage.setItem('wgp_timer',tl);
     setInterval(function(){
       var d=Math.max(0,parseInt(localStorage.getItem('wgp_timer')||tl)-Date.now());
@@ -306,6 +307,10 @@ function render(){
   $('prodName').textContent=p.name;
   $('prodPrice').textContent=money(p.offerPrice)+' (ক্যাশ অন ডেলিভারি)';
   document.title=(data.seo&&data.seo.title)?data.seo.title:(p.name+' — মাত্র ৳ '+p.offerPrice);
+  var so=data.seo||{};
+  if(so.title){$('metaTitle').textContent=so.title;$('ogTitle').setAttribute('content',so.title);}
+  if(so.description){$('metaDesc').setAttribute('content',so.description);$('ogDesc').setAttribute('content',so.description);}
+  if(so.ogImage)$('ogImage').setAttribute('content',so.ogImage);
 
   /* গ্যারান্টি ব্যাজ */
   var bd=$('badges');bd.innerHTML='';
@@ -333,7 +338,10 @@ function render(){
   /* সাপোর্ট */
   var wa=data.support;
   $('waBtn').textContent=wa.buttonText;
-  $('waBtn').href='https://wa.me/'+wa.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent('আসসালামু আলাইকুম, '+p.name+' সম্পর্কে জানতে চাই।');
+  var waNum=String(wa.whatsapp||'').replace(/\D/g,'');
+  var waOk=!/X/i.test(String(wa.whatsapp))&&waNum.length>=10;
+  if(waOk){$('waBtn').href='https://wa.me/'+waNum+'?text='+encodeURIComponent('আসসালামু আলাইকুম, '+p.name+' সম্পর্কে জানতে চাই।');$('waBtn').style.display='';}
+  else{$('waBtn').style.display='none';$('waBtn').previousElementSibling.style.display='none';}
   $('secSupport').style.display=data.sections.showSupport?'':'none';
 
   /* FAQ */
@@ -350,7 +358,6 @@ function render(){
   (data.geo.districts||[]).forEach(function(d){
     var o=document.createElement('option');o.value=d;o.textContent=d;dist.appendChild(o);
   });
-  $('thana').addEventListener('change',function(){});
   dist.addEventListener('change',function(){
     var th=$('thana');th.innerHTML='<option value="">— থানা নির্বাচন করুন —</option>';
     (data.geo.thanas[this.value]||[]).forEach(function(t){
@@ -400,18 +407,29 @@ function render(){
       return;
     }
     var oid=Math.floor(100000+Math.random()*900000);
+    var total=p.offerPrice*qty+shipCost();
     var msg=(data.message&&data.message.template||'').replace(/\{product\}/g,p.name)
       .replace(/\{qty\}/g,toBn(qty)).replace(/\{name\}/g,name)
       .replace(/\{phone\}/g,phone).replace(/\{district\}/g,district)
       .replace(/\{thana\}/g,thana).replace(/\{area\}/g,area)
       .replace(/\{shipping\}/g,shipType==='inside'?'ঢাকার ভিতরে (৳'+toBn(data.shipping.inside)+')':'ঢাকার বাইরে (৳'+toBn(data.shipping.outside)+')')
-      .replace(/\{total\}/g,money(p.offerPrice*qty+shipCost()))
+      .replace(/\{total\}/g,money(total))
       .replace(/\{oid\}/g,oid);
-    window.open('https://wa.me/'+wa.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent(msg),'_blank');
-    if(data.tracking.pixelId)fbq('track','Purchase',{value:p.offerPrice*qty+shipCost(),currency:'BDT'});
+    var fs=(data.formspree&&data.formspree.endpoint)||'';
+    if(fs&&data.formspree.active!==false){
+      try{
+        fetch(fs,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},
+          body:JSON.stringify({_subject:'🛒 নতুন অর্ডার #'+oid+' — '+p.name,name:name,phone:phone,district:district,
+            thana:thana,area:area,product:p.name,qty:qty,shipping:shipType==='inside'?'ঢাকার ভিতরে':'ঢাকার বাইরে',
+            total:total,payment:'ক্যাশ অন ডেলিভারি',oid:oid,site:location.hostname})})
+          .catch(function(){});
+      }catch(err){}
+    }
+    if(waOk)window.open('https://wa.me/'+waNum+'?text='+encodeURIComponent(msg),'_blank');
+    if(data.tracking.pixelId)fbq('track','Purchase',{value:total,currency:'BDT'});
     var box=$('successBox');box.hidden=false;
     box.style.borderColor='var(--green)';box.style.background='#f0fdf4';box.style.color='#14532d';
-    box.innerHTML='✅ <b>অর্ডার সফল হয়েছে!</b> অর্ডার আইডি: <b>#'+oid+'</b><br>WhatsApp খুলে গেছে — সেখানে <b>Send</b> চাপলেই অর্ডার কনফার্ম হয়ে যাবে।';
+    box.innerHTML='✅ <b>অর্ডার সফল হয়েছে!</b> অর্ডার আইডি: <b>#'+oid+'</b><br>'+(waOk?'WhatsApp খুলে গেছে — সেখানে <b>Send</b> চাপুন।':'নোটিফিকেশন পাঠানো হয়েছে।')+'<br>ফোন/ইমেইলে কনফার্মেশন কল আসবে।';
     box.scrollIntoView({behavior:'smooth',block:'center'});
     $('orderForm').reset();$('thana').disabled=true;
     qty=1;shipType='inside';updTotal();
