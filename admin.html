@@ -78,6 +78,7 @@ input,select,textarea{font-family:inherit}
       <div class="f"><label>পাসওয়ার্ড</label><input type="password" id="pw" placeholder="পাসওয়ার্ড দিন" autocomplete="current-password"></div>
       <button class="btn save" style="width:100%" onclick="login()">লগইন করুন</button>
       <div class="note">সব সেটিংস এই ব্রাউজারেই সেভ আছে। সংযোগ বদলাতে চাইলে <a href="javascript:toggleSetup()" style="color:#1d4ed8;font-weight:700">এখানে চাপুন</a>।</div>
+      <div class="note warn" style="margin-top:8px">পাসওয়ার্ড মনে নেই / ভুল পাসওয়ার্ড দেখাচ্ছে? <a href="javascript:resetPw()" style="color:#b91c1c;font-weight:700">এখানে চাপুন</a> — পুরনো পাসওয়ার্ড মুছে নতুন পাসওয়ার্ড সেট করতে পারবেন (টোকেন ও রিপো আগের মতোই থাকবে)।</div>
     </div>
     <div id="fullSetup">
       <div class="f"><label>পাসওয়ার্ড (কমপক্ষে ৪ অক্ষর — প্রথমবার সেট করবে)</label><input type="password" id="pw2" placeholder="নতুন পাসওয়ার্ড" autocomplete="new-password"></div>
@@ -213,6 +214,10 @@ input,select,textarea{font-family:inherit}
       <h3>💌 অর্ডার মেসেজ টেমপ্লেট</h3>
       <p style="font-size:12px;color:var(--muted);margin-bottom:6px">ব্যবহারযোগ্য ট্যাগ: {name} {phone} {district} {thana} {area} {product} {qty} {shipping} {total} {oid}</p>
       <div class="f"><textarea id="sMsg" style="min-height:150px"></textarea></div>
+      <h3>📧 অর্ডার নোটিফিকেশন (Formspree)</h3>
+      <div class="f"><label>Formspree ফর্ম লিংক</label><input id="fsEndpoint" placeholder="https://formspree.io/f/xxxxxxxx"></div>
+      <div class="f"><label>নোটিফিকেশন</label><select id="fsActive"><option value="true">হ্যাঁ — অর্ডার হলেই ইমেইলে নোটিফিকেশন যাবে</option><option value="false">না — বন্ধ থাকবে</option></select></div>
+      <div class="note">অর্ডার সাবমিট হলে সব তথ্য (নাম, মোবাইল, জেলা, ঠিকানা, পণ্য, টোটাল) এই ফর্মে পাঠানো হবে এবং formspree.io-এর সেটিংস অনুযায়ী তোমার ইমেইলে নোটিফিকেশন আসবে। বর্তমান লিংক: <b>https://formspree.io/f/mrpzlgdl</b></div>
     </div>
   </div>
 
@@ -382,9 +387,10 @@ geo:{districts:['ঢাকা','চট্টগ্রাম','রাজশাহ
 'রংপুর':['কোতোয়ালী','হারাগাছ','তাজহাট','বদরগঞ্জ','মিঠাপুকুর'],
 'ময়মনসিংহ':['কোতোয়ালী','মুক্তাগাছা','ভালুকা','ত্রিশাল','গফরগাঁও','ফুলপুর']}},
 tracking:{pixelId:''},
+formspree:{endpoint:'https://formspree.io/f/mrpzlgdl',active:true},
 theme:{primary:'#1d4ed8',primaryDark:'#1e40af',priceColor:'#dc2626',btnFrom:'#22c55e',btnTo:'#15803d'},
 sections:{showBanner:true,showTimer:true,showBadges:true,showFeatures:true,showReviews:true,showSupport:true,showFaq:true,showSticky:true},
-seo:{title:'WGP 10400mAh Mini UPS — মাত্র ৳ ২০৯৯ | ক্যাশ অন ডেলিভারি',description:'লোডশেডিংয়েও ১০-১২ ঘণ্টা নিরবচ্ছিন্ন হাই-স্পিড ইন্টারনেট! ক্যাশ অন ডেলিভারি।',ogImage:''},
+seo:{title:'WGP 10400mAh Mini UPS — মাত্র ৳ ২০৯৯ | ক্যাশ অন ডেলিভারি',description:'লোডশেডিংয়েও ১০-১২ ঘণ্টা নিরবচ্ছিন্ন হাই-স্পিড ইন্টারনেট! ক্যাশ অন ডেলিভারি।',ogImage:'https://wgp-ups.vercel.app/product.jpg'},
 message:{template:'🛒 *নতুন অর্ডার — {product}*\n━━━━━━━━━━━━━━━\n👤 নাম: {name}\n📞 মোবাইল: {phone}\n📍 জেলা: {district}\n🏢 থানা/উপজেলা: {thana}\n🏠 ঠিকানা: {area}\n━━━━━━━━━━━━━━━\n📦 পণ্য: {product} × {qty}\n🚚 ডেলিভারি: {shipping}\n💰 সর্বমোট: {total}\n💵 পেমেন্ট: ক্যাশ অন ডেলিভারি\n━━━━━━━━━━━━━━━\n🆔 অর্ডার আইডি: #{oid}'},
 custom:{css:''},
 footer:'© 2026 WGP Mini UPS BD. সর্বস্বত্ব সংরক্ষিত।'}}
@@ -403,6 +409,7 @@ $('tabs').addEventListener('click',function(e){var b=e.target.closest('button');
   $('gKey').value=localStorage.getItem(LS.G)||'';$('gModel').value=localStorage.getItem(LS.GM)||'gemini-2.5-flash';
 })();
 function toggleSetup(){['pwOnly','fullSetup'].forEach(function(i){$(i).classList.toggle('hide')})}
+function resetPw(){if(confirm('নিশ্চিত? এই ব্রাউজারে সেভ করা পাসওয়ার্ড মুছে যাবে।\n\nএরপর যেকোনো নতুন পাসওয়ার্ড দিয়ে লগইন করলেই সেটা নতুন পাসওয়ার্ড হয়ে যাবে (টোকেন ও রিপো আগের মতোই থাকবে)।')){localStorage.removeItem(LS.P);location.reload()}}
 
 async function login(){
   var repo=$('repo').value.trim()||localStorage.getItem(LS.R);
@@ -477,6 +484,7 @@ function fillForms(){
   $('pOld').value=DATA.product.originalPrice;$('pOffer').value=DATA.product.offerPrice;$('pDisc').value=DATA.product.discountPercent;
   $('sWa').value=DATA.support.whatsapp;$('sBtn').value=DATA.support.buttonText;
   $('sIn').value=DATA.shipping.inside;$('sOut').value=DATA.shipping.outside;$('sMsg').value=DATA.message.template;
+  $('fsEndpoint').value=(DATA.formspree&&DATA.formspree.endpoint)||'';$('fsActive').value=(DATA.formspree&&DATA.formspree.active===false)?'false':'true';
   $('tPrimary').value=DATA.theme.primary;$('tPrimaryDark').value=DATA.theme.primaryDark;
   $('tPrice').value=DATA.theme.priceColor;$('tBtnFrom').value=DATA.theme.btnFrom;$('tBtnTo').value=DATA.theme.btnTo;
   $('sShowReviews').value=DATA.sections.showReviews?'true':'false';$('sShowFaq').value=DATA.sections.showFaq?'true':'false';
@@ -496,6 +504,8 @@ function collect(){
   DATA.product.image=$('pImg').value.trim()||'product.jpg';DATA.product.badge=$('pBadge').value.trim();
   DATA.product.originalPrice=+$('pOld').value||0;DATA.product.offerPrice=+$('pOffer').value||0;DATA.product.discountPercent=Math.max(0,Math.min(100,+$('pDisc').value||0));
   DATA.support.whatsapp=$('sWa').value.replace(/[^0-9]/g,'');DATA.support.buttonText=$('sBtn').value.trim()||'হোয়াটসঅ্যাপে মেসেজ দিন';
+  if(!DATA.formspree)DATA.formspree={};
+  DATA.formspree.endpoint=$('fsEndpoint').value.trim();DATA.formspree.active=$('fsActive').value==='true';
   DATA.shipping.inside=+$('sIn').value||0;DATA.shipping.outside=+$('sOut').value||0;DATA.message.template=$('sMsg').value;
   DATA.theme.primary=$('tPrimary').value;DATA.theme.primaryDark=$('tPrimaryDark').value;DATA.theme.priceColor=$('tPrice').value;
   DATA.theme.btnFrom=$('tBtnFrom').value;DATA.theme.btnTo=$('tBtnTo').value;
