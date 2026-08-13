@@ -76,8 +76,12 @@
     "outside": 130
   },
   "geo": {
-    "districts": [],
-    "thanas": {}
+    "districts": [
+      "sirajgonaj"
+    ],
+    "thanas": {
+      "sirajgonaj": []
+    }
   },
   "tracking": {
     "pixelId": ""
