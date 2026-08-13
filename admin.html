@@ -47,6 +47,7 @@ input,select,textarea{font-family:inherit}
 .login h1{font-size:20px;color:#1e40af;text-align:center;margin-bottom:16px}
 .note{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;font-size:12.5px;border-radius:10px;padding:10px;margin-top:12px;line-height:1.7}
 .note.warn{background:#fef2f2;border-color:#fecaca;color:#b91c1c}
+.note.ok{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
 .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:520px){.dash-grid{grid-template-columns:1fr}}
 .dash-card{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:14px}
@@ -73,22 +74,24 @@ input,select,textarea{font-family:inherit}
 <!-- ================= লগইন ================= -->
 <div id="loginView" class="wrap">
   <div class="login">
-    <h1>🔐 এডমিন প্যানেল</h1>
+    <h1>🔐 এডমিন প্যানেল <span style="font-size:11px;color:#fff;background:#16a34a;border-radius:8px;padding:2px 8px;vertical-align:middle">v3</span></h1>
+    <div id="resetMsg" style="display:none"></div>
     <div id="pwOnly" class="hide">
       <div class="f"><label>পাসওয়ার্ড</label><input type="password" id="pw" placeholder="পাসওয়ার্ড দিন" autocomplete="current-password"></div>
       <button class="btn save" style="width:100%" onclick="login()">লগইন করুন</button>
-      <div class="note">সব সেটিংস এই ব্রাউজারেই সেভ আছে। সংযোগ বদলাতে চাইলে <a href="javascript:toggleSetup()" style="color:#1d4ed8;font-weight:700">এখানে চাপুন</a>।</div>
-      <div class="note warn" style="margin-top:8px">পাসওয়ার্ড মনে নেই / ভুল পাসওয়ার্ড দেখাচ্ছে? <a href="javascript:resetPw()" style="color:#b91c1c;font-weight:700">এখানে চাপুন</a> — পুরনো পাসওয়ার্ড মুছে নতুন পাসওয়ার্ড সেট করতে পারবেন (টোকেন ও রিপো আগের মতোই থাকবে)।</div>
+      <button class="btn danger" style="width:100%;margin-top:8px" onclick="resetPw()">🔑 পাসওয়ার্ড ভুলে গেছেন? এখানে চাপুন</button>
+      <div class="note">সব সেটিংস এই ব্রাউজারেই সেভ আছে। টোকেন/রিপো বদলাতে চাইলে <a href="javascript:toggleSetup()" style="color:#1d4ed8;font-weight:700">এখানে চাপুন</a>।</div>
     </div>
     <div id="fullSetup">
-      <div class="f"><label>পাসওয়ার্ড (কমপক্ষে ৪ অক্ষর — প্রথমবার সেট করবে)</label><input type="password" id="pw2" placeholder="নতুন পাসওয়ার্ড" autocomplete="new-password"></div>
-      <div class="f"><label>GitHub টোকেন (Fine-grained PAT)</label><input type="password" id="tk" placeholder="github_pat_..."></div>
+      <div class="f"><label>১️⃣ পাসওয়ার্ড (যেকোনো — যেমন: 1234)</label><input type="password" id="pw2" placeholder="নতুন পাসওয়ার্ড" autocomplete="new-password"></div>
+      <div class="f"><label>২️⃣ GitHub টোকেন</label><input type="password" id="tk" placeholder="github_pat_... পেস্ট করুন"></div>
       <div class="f-row">
-        <div class="f"><label>Owner / Repo</label><input type="text" id="repo" placeholder="যেমন: rakibhassan/wgp-mini-ups"></div>
+        <div class="f"><label>৩️⃣ Owner / Repo (আগে থেকে দেওয়া — বদলাবেন না)</label><input type="text" id="repo"></div>
         <div class="f"><label>Branch</label><input type="text" id="br" value="main"></div>
       </div>
-      <button class="btn save" style="width:100%" onclick="login()">সেভ করে লগইন করুন</button>
-      <div class="note"><b>Owner/Repo:</b> তোমার GitHub ইউজারনেম + স্ল্যাশ + রিপোর নাম। URL না! যেমন <b>rakibhassan/wgp-mini-ups</b>। টোকেন বানানোর নিয়ম নিচের গাইডে।</div>
+      <button class="btn save" style="width:100%" onclick="login()">✅ সেভ করে লগইন করুন</button>
+      <button class="btn danger" style="width:100%;margin-top:8px" onclick="resetPw()">🔑 পাসওয়ার্ড ভুলে গেছেন? রিসেট করুন</button>
+      <div class="note" style="background:#eff6ff;border-color:#bfdbfe;color:#1e40af"><b>যা যা বসাবে:</b><br>• পাসওয়ার্ড: যেকোনো (যেমন <b>1234</b>)<br>• টোকেন: <b>github_pat_</b> দিয়ে শুরু — তোমার টোকেনটা পেস্ট করো<br>• Owner/Repo: <b>smiukgdjggrjc536-create/wgp-mini-ups</b> (ইতিমধ্যে বসানো থাকবে)</div>
     </div>
   </div>
 </div>
@@ -354,6 +357,7 @@ input,select,textarea{font-family:inherit}
 <script>
 var $=function(id){return document.getElementById(id)};
 var LS={P:'wgp_pw',T:'wgp_token',R:'wgp_repo',B:'wgp_branch',G:'wgp_gemini',GM:'wgp_gemini_model'};
+var DEFAULT_REPO='smiukgdjggrjc536-create/wgp-mini-ups';
 var DATA=null,SHA=null,AI_CHANGES=null;
 
 /* ---------- ইউটিল ---------- */
@@ -400,29 +404,49 @@ $('tabs').addEventListener('click',function(e){var b=e.target.closest('button');
 
 /* ---------- লগইন ---------- */
 (function initLogin(){
-  if(localStorage.getItem(LS.T)&&localStorage.getItem(LS.R)){
-    $('pwOnly').classList.remove('hide');$('fullSetup').classList.add('hide');
-  }else{
-    $('pwOnly').classList.add('hide');$('fullSetup').classList.remove('hide');
-    $('repo').value=localStorage.getItem(LS.R)||'';$('br').value=localStorage.getItem(LS.B)||'main';
-  }
+  try{
+    if(localStorage.getItem(LS.T)&&localStorage.getItem(LS.R)){
+      $('pwOnly').classList.remove('hide');$('fullSetup').classList.add('hide');
+    }else{
+      $('pwOnly').classList.add('hide');$('fullSetup').classList.remove('hide');
+      $('repo').value=localStorage.getItem(LS.R)||DEFAULT_REPO;$('br').value=localStorage.getItem(LS.B)||'main';
+    }
+  }catch(e){}
   $('gKey').value=localStorage.getItem(LS.G)||'';$('gModel').value=localStorage.getItem(LS.GM)||'gemini-2.5-flash';
 })();
 function toggleSetup(){['pwOnly','fullSetup'].forEach(function(i){$(i).classList.toggle('hide')})}
-function resetPw(){if(confirm('নিশ্চিত? এই ব্রাউজারে সেভ করা পাসওয়ার্ড মুছে যাবে।\n\nএরপর যেকোনো নতুন পাসওয়ার্ড দিয়ে লগইন করলেই সেটা নতুন পাসওয়ার্ড হয়ে যাবে (টোকেন ও রিপো আগের মতোই থাকবে)।')){localStorage.removeItem(LS.P);location.reload()}}
+function showResetMsg(txt,ok){
+  var m=$('resetMsg');m.style.display='block';
+  m.className='note '+(ok?'ok':'warn');m.innerHTML=txt;
+  m.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function resetPw(){
+  if(!confirm('🔑 পাসওয়ার্ড রিসেট করবেন?\n\nপুরনো পাসওয়ার্ড মুছে যাবে — এরপর যেকোনো নতুন পাসওয়ার্ড লিখে লগইন করলেই সেটাই হবে (টোকেন ও রিপো ঠিক থাকবে)।'))return;
+  try{localStorage.removeItem(LS.P)}catch(e){}
+  showResetMsg('✅ <b>পাসওয়ার্ড রিসেট হয়েছে!</b> এখন নিচে যেকোনো নতুন পাসওয়ার্ড (যেমন: <b>1234</b>) লিখে <b>লগইন</b> চাপুন — সেটাই নতুন পাসওয়ার্ড হয়ে যাবে।',true);
+}
 
 async function login(){
-  var repo=$('repo').value.trim()||localStorage.getItem(LS.R);
-  var tk=$('tk').value.trim()||localStorage.getItem(LS.T);
-  var br=$('br').value.trim()||localStorage.getItem(LS.B)||'main';
-  var pw=$('pw').value||$('pw2').value;
-  if(!pw){toast('পাসওয়ার্ড লিখুন','err');return}
-  if(!tk||!repo){toast('টোকেন ও Owner/Repo দিন','err');return}
-  if(repo.split('/').length!==2){toast('Owner/Repo ভুল! যেমন: rakibhassan/wgp-mini-ups','err');return}
-  var h=await sha256(pw),stored=localStorage.getItem(LS.P);
-  if(stored&&stored!==h){toast('ভুল পাসওয়ার্ড!','err');return}
-  localStorage.setItem(LS.P,h);localStorage.setItem(LS.T,tk);localStorage.setItem(LS.R,repo);localStorage.setItem(LS.B,br);
-  enterPanel();
+  try{
+    var repo=($('repo').value.trim()||localStorage.getItem(LS.R)||DEFAULT_REPO).trim();
+    var tk=$('tk').value.trim()||localStorage.getItem(LS.T);
+    var br=$('br').value.trim()||localStorage.getItem(LS.B)||'main';
+    var pw=$('pw').value||$('pw2').value;
+    if(!pw){toast('পাসওয়ার্ড লিখুন','err');return}
+    if(repo.indexOf('http')===0||repo.indexOf('github.com')>-1){
+      try{var u=new URL(repo);var p=u.pathname.replace(/^\//,'').replace(/\.git$/,'').split('/');if(p.length>=2)repo=p[0]+'/'+p[1]}catch(e){}
+    }
+    if(repo.split('/').length!==2){showResetMsg('❌ Owner/Repo ঠিক নেই! এভাবে বসান: <b>smiukgdjggrjc536-create/wgp-mini-ups</b> (শুধু ইউজারনেম/স্ল্যাশ/রিপোর নাম — লিংক নয়)।',false);return}
+    if(!tk){showResetMsg('❌ GitHub টোকেন দিন — <b>github_pat_</b> দিয়ে শুরু টোকেনটা বসান।',false);return}
+    var h=await sha256(pw),stored=localStorage.getItem(LS.P);
+    if(stored&&stored!==h){
+      if(confirm('❌ পাসওয়ার্ড ভুল!\n\n🔑 নতুন পাসওয়ার্ড সেট করতে চান?\n(হ্যাঁ চাপলে পুরনো পাসওয়ার্ড মুছে যাবে এবং এই নতুন পাসওয়ার্ড দিয়েই লগইন হবে — টোকেন ও রিপো ঠিক থাকবে)')){
+        localStorage.removeItem(LS.P);
+      }else{return}
+    }
+    localStorage.setItem(LS.P,h);localStorage.setItem(LS.T,tk);localStorage.setItem(LS.R,repo);localStorage.setItem(LS.B,br);
+    enterPanel();
+  }catch(err){toast('❌ সমস্যা: '+err.message,'err')}
 }
 function enterPanel(){
   $('loginView').hidden=true;$('mainView').hidden=false;
@@ -533,7 +557,7 @@ async function save(){
     var tip=e.message.indexOf('sha')>-1?'GitHub-এ কেউ পরিবর্তন করেছে — 📥 রিলোড চেপে আবার সেভ করো।'
       :e.message.indexOf('Bad credentials')>-1?'টোকেন ভুল/মেয়াদ শেষ — নিরাপত্তা ট্যাবে নতুন টোকেন দাও।'
       :e.message.indexOf('Forbidden')>-1?'টোকেনে Contents: Read and write পারমিশন নেই।'
-      :e.message.indexOf('Not Found')>-1?'রিপো ঠিক আছে কিনা দেখো।';
+      :e.message.indexOf('Not Found')>-1?'রিপো ঠিক আছে কিনা দেখো।':'';
     toast('❌ সেভ ব্যর্থ: '+e.message+' '+tip,'err');
   }
 }
