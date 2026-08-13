@@ -68,7 +68,7 @@
     }
   ],
   "support": {
-    "whatsapp": "8801327268714",
+    "whatsapp": "",
     "buttonText": "হোয়াটসঅ্যাপে মেসেজ দিন"
   },
   "shipping": {
@@ -76,14 +76,8 @@
     "outside": 130
   },
   "geo": {
-    "districts": [
-      "sirajgonaj"
-    ],
-    "thanas": {
-      "sirajgonaj": [
-        "ullapara"
-      ]
-    }
+    "districts": [],
+    "thanas": {}
   },
   "tracking": {
     "pixelId": ""
