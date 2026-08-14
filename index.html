@@ -36,6 +36,11 @@ header{background:var(--card);border-bottom:1px solid var(--line)}
 .t-box span{display:block;font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
 .t-box small{font-size:11px;opacity:.9}
 .t-sep{font-weight:700;font-size:20px}
+.stock-bar{background:linear-gradient(90deg,#7c2d12,#c2410c);color:#fff;border-radius:var(--r);padding:12px 14px;margin-top:12px}
+.stock-bar .s-title{font-weight:700;font-size:14.5px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.stock-track{background:rgba(255,255,255,.25);border-radius:999px;height:10px;margin-top:8px;overflow:hidden}
+.stock-fill{background:linear-gradient(90deg,#fbbf24,#f59e0b);height:100%;border-radius:999px;transition:width .6s}
+.stock-note{font-size:11.5px;opacity:.95;margin-top:6px}
 .hero{text-align:center}
 .img-wrap{background:#f8fafc;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:12px}
 .img-wrap img{width:100%;max-height:300px;object-fit:cover}
@@ -49,34 +54,55 @@ header{background:var(--card);border-bottom:1px solid var(--line)}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 .badges{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
 .badge-item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center;font-size:11.5px;font-weight:600;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.stat-item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 6px;text-align:center;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.stat-value{font-size:17px;font-weight:800;color:var(--blue2);line-height:1.2}
+.stat-label{font-size:11px;color:var(--muted);margin-top:3px}
 .feat-list{list-style:none}
 .feat-list li{position:relative;padding:8px 0 8px 32px;border-bottom:1px dashed var(--line);font-size:14.5px}
 .feat-list li:last-child{border-bottom:none}
 .feat-list li::before{content:"✅";position:absolute;left:0;top:8px;font-size:16px}
+.box-list{list-style:none}
+.box-list li{position:relative;padding:8px 0 8px 34px;border-bottom:1px dashed var(--line);font-size:14px}
+.box-list li:last-child{border-bottom:none}
+.box-list li::before{content:"📦";position:absolute;left:0;top:8px;font-size:17px}
+.cmp-table{width:100%;border-collapse:collapse;font-size:13px}
+.cmp-table th,.cmp-table td{border:1px solid var(--line);padding:8px 6px;text-align:center}
+.cmp-table th{background:var(--blue2);color:#fff;font-size:13px}
+.cmp-table td:first-child{text-align:left;font-weight:600;background:#f8fafc}
+.cmp-table tr:nth-child(2){background:#fef2f2}.cmp-table tr:nth-child(2) td{font-weight:700;color:#b91c1c}
+.cmp-table tr:nth-child(3){background:#f0fdf4}.cmp-table tr:nth-child(3) td{font-weight:700;color:#166534}
 .review{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
 .review:last-child{margin-bottom:0}
 .stars{color:#f59e0b;font-size:15px;letter-spacing:2px}
 .r-text{font-size:13.5px;margin:6px 0;color:#334155}
 .r-meta{font-size:12.5px;color:var(--muted);font-weight:600}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.why-item{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px}
+.why-item .w-icon{font-size:22px}
+.why-item .w-title{font-weight:700;font-size:14px;margin-top:6px;color:var(--blue2)}
+.why-item .w-text{font-size:12.5px;color:var(--muted);margin-top:3px}
+.steps{display:flex;flex-direction:column;gap:8px}
+.step-item{display:flex;gap:12px;align-items:flex-start;background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px}
+.step-num{flex:none;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center}
+.step-item .s-icon{font-size:22px;flex:none;line-height:1}
+.step-item b{font-size:14.5px;display:block}
+.step-item p{font-size:13px;color:var(--muted);margin-top:2px}
 .support-card p{font-size:14px;margin-bottom:10px;text-align:center}
 .wa-btn{display:block;text-align:center;background:linear-gradient(90deg,#22c55e,#16a34a);color:#fff;font-weight:700;font-size:15px;padding:13px;border-radius:12px;text-decoration:none;box-shadow:0 4px 12px rgba(22,163,74,.35)}
-.wa-btn:active{transform:scale(.98)}
-details{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
-details summary{cursor:pointer;font-weight:600;font-size:14px;list-style:none;position:relative;padding-right:20px}
-details summary::after{content:"+";position:absolute;right:0;top:0;color:var(--blue);font-weight:700}
-details[open] summary::after{content:"−"}
-details p{font-size:13.5px;color:#334155;margin-top:8px}
-.order-card{border:2px solid var(--blue);box-shadow:0 4px 16px rgba(29,78,216,.15)}
-.prod-box{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:14px}
-.prod-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
-.prod-name{font-weight:700;font-size:14.5px}
-.prod-price{color:var(--red);font-weight:800;font-size:16px;margin-top:2px}
-.qty{display:flex;align-items:center;gap:2px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:4px}
-.qty button{width:36px;height:36px;border:none;background:#eef2f7;font-size:20px;font-weight:700;border-radius:8px;cursor:pointer;color:var(--blue2)}
-.qty button:active{background:#cbd5e1}
-.qty span{min-width:42px;text-align:center;font-weight:800;font-size:17px}
-.ship-title{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px}
-.opt{display:block;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:8px;cursor:pointer;font-size:14px;background:#fff;transition:.15s}
+details{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:8px;cursor:pointer;font-size:14px;background:#fff;transition:.15s}
+details summary{font-weight:600;outline:none}
+details p{margin-top:8px;color:#334155;font-size:13.5px}
+.order-card{background:var(--card)}
+.prod-box{border:1.5px solid var(--line);border-radius:12px;padding:12px;margin-bottom:14px}
+.prod-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px}
+.prod-name{font-size:14px;font-weight:700;line-height:1.3}
+.prod-price{font-size:13px;color:var(--green2);font-weight:600;margin-top:4px}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--line);background:#fff;font-size:18px;font-weight:700;cursor:pointer;color:var(--blue2)}
+.qty span{font-size:17px;font-weight:800;min-width:22px;text-align:center}
+.ship-title{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+.opt{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:8px;cursor:pointer;font-size:14px;background:#fff;transition:.15s}
 .opt input{display:none}
 .opt:has(input:checked){border-color:var(--green);background:#f0fdf4;font-weight:600}
 .opt:has(input:checked) span::after{content:" ✓";color:var(--green);font-weight:800}
@@ -91,12 +117,26 @@ details p{font-size:13.5px;color:#334155;margin-top:8px}
 select:disabled{background:#eef2f7;color:#94a3b8}
 .submit-btn{width:100%;background:linear-gradient(90deg,#22c55e,#15803d);color:#fff;font-size:17px;font-weight:800;padding:15px;border:none;border-radius:12px;cursor:pointer;box-shadow:0 5px 14px rgba(21,128,61,.4);margin-top:4px}
 .submit-btn:active{transform:scale(.98)}
+.micro-trust{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--muted);margin-top:10px;text-align:center;flex-wrap:wrap}
+.micro-trust .dot{color:var(--green2);font-weight:800}
+.delivery-partners{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11.5px;color:var(--muted);margin-top:8px;text-align:center;flex-wrap:wrap}
+.delivery-partners b{color:#334155}
 .success-box{background:#f0fdf4;border:1.5px solid var(--green);color:#14532d;border-radius:10px;padding:12px;font-size:13.5px;margin-top:12px;text-align:center}
 footer{text-align:center;color:#94a3b8;font-size:12px;padding:18px 12px 10px}
 .sticky-bar{position:fixed;left:0;right:0;bottom:0;z-index:70;background:#fff;border-top:1px solid var(--line);box-shadow:0 -3px 14px rgba(15,23,42,.1);display:flex;align-items:center;justify-content:space-between;padding:9px 14px;max-width:500px;margin:0 auto}
 .sb-label{font-size:11px;color:var(--muted)}
 .sb-total{font-size:19px;font-weight:800;color:var(--red)}
 .sb-btn{background:linear-gradient(90deg,#22c55e,#15803d);color:#fff;text-decoration:none;font-weight:800;font-size:15px;padding:11px 26px;border-radius:999px;box-shadow:0 4px 12px rgba(21,128,61,.35)}
+.wa-fab{position:fixed;right:16px;bottom:88px;z-index:80;width:56px;height:56px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(37,211,102,.5);animation:fabPulse 2s infinite}
+@keyframes fabPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.wa-fab svg{width:30px;height:30px;fill:#fff}
+.order-toast{position:fixed;left:14px;bottom:150px;z-index:85;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 6px 20px rgba(15,23,42,.18);padding:10px 12px;display:flex;align-items:center;gap:10px;max-width:300px;opacity:0;transform:translateY(14px);transition:.4s;pointer-events:none}
+.order-toast.show{opacity:1;transform:translateY(0)}
+.ot-ava{flex:none;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#15803d);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+.ot-txt{font-size:12.5px;color:#334155}
+.ot-txt b{display:block;font-size:13px;color:var(--text)}
+.ot-txt small{color:var(--muted)}
+@media(max-width:420px){.stats-strip{grid-template-columns:repeat(2,1fr)}.why-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -128,6 +168,12 @@ footer{text-align:center;color:#94a3b8;font-size:12px;padding:18px 12px 10px}
     </div>
   </section>
 
+  <section class="stock-bar" id="stockBar">
+    <div class="s-title"><span>🔥 মাত্র <b id="stockLeft">০</b>টি স্টক বাকি!</span><span id="stockPct"></span></div>
+    <div class="stock-track"><div class="stock-fill" id="stockFill"></div></div>
+    <div class="stock-note" id="stockNote"></div>
+  </section>
+
   <section class="card hero">
     <div class="img-wrap"><img id="productImg" alt="WGP Mini UPS"></div>
     <h1 id="productTitle"></h1>
@@ -141,14 +187,36 @@ footer{text-align:center;color:#94a3b8;font-size:12px;padding:18px 12px 10px}
 
   <section class="badges" id="badges"></section>
 
+  <section class="stats-strip" id="statsStrip"></section>
+
   <section class="card" id="secFeatures">
-    <h3 class="sec-title">কেন এই Mini UPS টি কিনবেন?</h3>
+    <h3 class="sec-title">✅ কেন এই Mini UPS টি কিনবেন?</h3>
     <ul class="feat-list" id="featList"></ul>
+  </section>
+
+  <section class="card" id="secBox">
+    <h3 class="sec-title">📦 বক্সে যা যা পাবেন</h3>
+    <ul class="box-list" id="boxList"></ul>
+  </section>
+
+  <section class="card" id="secComparison">
+    <h3 class="sec-title center" id="cmpTitle"></h3>
+    <table class="cmp-table" id="cmpTable"></table>
   </section>
 
   <section class="card" id="secReviews">
     <h3 class="sec-title">💬 কাস্টমাররা যা বলছেন</h3>
     <div id="reviews"></div>
+  </section>
+
+  <section class="card" id="secWhyUs">
+    <h3 class="sec-title">🏆 কেন আমাদের কাছ থেকে কিনবেন?</h3>
+    <div class="why-grid" id="whyGrid"></div>
+  </section>
+
+  <section class="card" id="secSteps">
+    <h3 class="sec-title center">🛒 অর্ডার করতে মাত্র ৩টা ধাপ</h3>
+    <div class="steps" id="steps"></div>
   </section>
 
   <section class="card support-card" id="secSupport">
@@ -195,6 +263,8 @@ footer{text-align:center;color:#94a3b8;font-size:12px;padding:18px 12px 10px}
         <label class="opt pay"><input type="radio" name="payment" value="cod" checked disabled><span>💵 ক্যাশ অন ডেলিভারি (পণ্য হাতে পেয়ে টাকা পরিশোধ করুন)</span></label>
       </div>
       <button type="submit" class="submit-btn">🛒 অর্ডার কনফার্ম করুন</button>
+      <div class="micro-trust"><span class="dot">✓</span> আপনার তথ্য ১০০% নিরাপদ — স্প্যাম করা হয় না</div>
+      <div class="delivery-partners">🚚 ডেলিভারি পার্টনার: <b>পাঠাও, সুন্দরবন, SA প্যারিবার</b></div>
       <div id="successBox" class="success-box" hidden></div>
     </form>
   </section>
@@ -210,32 +280,50 @@ footer{text-align:center;color:#94a3b8;font-size:12px;padding:18px 12px 10px}
   <a href="#order" class="sb-btn">🛒 অর্ডার করুন</a>
 </div>
 
+<a class="wa-fab" id="waFab" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.7 6L4 29l8.2-1.6c1.7.9 3.7 1.4 5.8 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 22c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-4.8.9.9-4.7-.2-.4A9.8 9.8 0 0 1 5.5 15c0-5.4 4.4-9.8 9.8-9.8 5.4 0 9.8 4.4 9.8 9.8S21.4 25 16 25zm5.4-7.3c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.2-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.2-.3-.2-.6-.4z"/></svg>
+</a>
+
+<div class="order-toast" id="orderToast">
+  <div class="ot-ava" id="otAva">🛒</div>
+  <div class="ot-txt"><b id="otText"></b><small id="otSub"></small></div>
+</div>
+
 <script>
 var DEFAULTS={
 brand:{name:'WGP Mini UPS BD',tagline:'লোডশেডিংয়েও আপনার ওয়াইফাই থাকবে ১০০% সচল!',logo:'logo.png'},
 banner:{text:'🔥 ফ্ল্যাশ সেল! সীমিত স্টকের ওপর বিশেষ অফার!',show:true},
-timer:{days:7,show:true},
-product:{name:'WGP 10400mAh Mini UPS',title:'WGP 10400mAh Mini UPS — WiFi Router & ONU Backup',subtitle:'লোডশেডিংয়েও ১০-১২ ঘণ্টা নিরবচ্ছিন্ন হাই-স্পিড ইন্টারনেট!',badge:'১৬% ছাড়!',image:'product.jpg',fallbackImage:'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80',originalPrice:2499,offerPrice:2099,discountPercent:16},
-guarantees:['🛡️ ৩০ দিনের ওয়ারেন্টি','🔄 ৭ দিনের ইনস্ট্যান্ট রিপ্লেসমেন্ট গ্যারান্টি','🚚 ১০০% ক্যাশ অন ডেলিভারি (Cash on Delivery)'],
-features:['১০-১২ ঘণ্টা পর্যন্ত ইন্টারনেট ব্যাকআপ।','রাউটার ও ONU একসাথে চালানোর সুবিধা।','স্মার্ট ওভারচার্জিং ও শর্ট-সার্কিট প্রোটেকশন।'],
-reviews:[{name:'রাকিব হাসান',location:'ঢাকা',stars:5,text:'লোডশেডিংয়ের সময়ও ইন্টারনেট চলছে! একদম পারফেক্ট।'},{name:'সাব্বির আহমেদ',location:'চট্টগ্রাম',stars:5,text:'রাউটার আর ONU দুইটাই একসাথে চালায়।'},{name:'তানিয়া আক্তার',location:'রাজশাহী',stars:4,text:'পণ্য দেখে নিয়ে টাকা দিয়েছি, প্রোডাক্ট ভালো।'}],
-faq:[{q:'ডেলিভারি কতদিনের মধ্যে পাবো?',a:'ঢাকার ভেতরে ১-২ দিন, বাইরে ২-৪ দিন।'},{q:'ক্যাশ অন ডেলিভারি কীভাবে কাজ করে?',a:'পণ্য হাতে পেয়ে টাকা দেবেন, আগে কিছু পাঠাতে হবে না।'},{q:'প্রোডাক্টে সমস্যা হলে?',a:'৩০ দিনের ওয়ারেন্টি আছে, হোয়াটসঅ্যাপে মেসেজ দিন।'}],
-support:{whatsapp:'8801XXXXXXXXX',buttonText:'হোয়াটসঅ্যাপে মেসেজ দিন'},
+timer:{days:5,show:true},
+product:{name:'WGP 10400mAh Mini UPS',title:'WGP 10400mAh Mini UPS — WiFi রাউটার ও ONU-র জন্য সেরা ব্যাকআপ সলিউশন',subtitle:'লোডশেডিংয়েও ১০-১২ ঘণ্টা হাই-স্পিড ইন্টারনেট! এখনই অর্ডার করুন — ক্যাশ অন ডেলিভারি।',badge:'শুধু আজই ৳৪০০ ছাড়!',image:'product.jpg',fallbackImage:'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80',originalPrice:2499,offerPrice:2099,discountPercent:16},
+guarantees:['🛡️ ৩০ দিনের অফিসিয়াল ওয়ারেন্টি','🔄 ৭ দিনের ইনস্ট্যান্ট রিপ্লেসমেন্ট গ্যারান্টি','🚚 ১০০% ক্যাশ অন ডেলিভারি — আগে দেখুন, তারপর টাকা দিন'],
+features:['১০-১২ ঘণ্টা পর্যন্ত নিরবচ্ছিন্ন ইন্টারনেট ব্যাকআপ — লোডশেডিংয়ে আর ইন্টারনেট বন্ধ নয়।','একসাথে রাউটার ও ONU — দুই ডিভাইসই একসাথে চলবে।','১০৪০০mAh হাই-ক্যাপাসিটি লিথিয়াম ব্যাটারি — দীর্ঘস্থায়ী পারফরম্যান্স।','স্মার্ট LED ডিসপ্লে — ব্যাটারি লেভেল এক নজরে।','ওভারচার্জিং, ওভার-কারেন্ট ও শর্ট-সার্কিট প্রোটেকশন — ডিভাইস থাকবে নিরাপদ।','প্লাগ অ্যান্ড প্লে — কোনো টেকনিশিয়ান বা সেটআপ লাগবে না।','৫০০+ চার্জিং সাইকেল — বছরের পর বছর ব্যবহার।','সাইলেন্ট অপারেশন — কোনো শব্দ ছাড়াই কাজ করে।','হালকা ও কমপ্যাক্ট ডিজাইন — যেকোনো জায়গায় বসান।','অফিস, বাসা ও দোকান — সবখানে ব্যবহারযোগ্য।','চার্জ ও ব্যাকআপ একসাথে — বিদ্যুৎ এলে চার্জ হবে, চলে গেলে নিজে থেকে ব্যাকআপ দেবে।','প্রিমিয়াম কোয়ালিটি — দীর্ঘমেয়াদী বিনিয়োগ।'],
+reviews:[{name:'রাকিব হাসান',location:'ঢাকা',stars:5,text:'লোডশেডিংয়ের সময়ও ইন্টারনেট চলছে! অফিসে বসে কাজ করতে পারছি, কোনো ডিসকানেক্ট নেই। গত ১ মাস ধরে ব্যবহার করছি, একদম পারফেক্ট।'},{name:'সাব্বির আহমেদ',location:'চট্টগ্রাম',stars:5,text:'রাউটার আর ONU দুইটাই একসাথে চালায়। আগের ব্যাকআপের চেয়ে অনেক ভালো, দামও যুক্তিসংগত।'},{name:'তানিয়া আক্তার',location:'রাজশাহী',stars:5,text:'প্রোডাক্ট দেখে নিয়ে টাকা দিয়েছি। ১০-১২ ঘণ্টা মতো ব্যাকআপ দেয়, পরিবারে সবাই খুশি।'},{name:'মো. জাহিদুল ইসলাম',location:'সিরাজগঞ্জ',stars:5,text:'উল্লাপাড়ায় থাকি, লোডশেডিং এখানে খুবই বেশি। এই UPS নেওয়ার পর থেকে আর ইন্টারনেট বন্ধ দেখতে হয়নি!'},{name:'নুসরাত জাহান',location:'খুলনা',stars:4,text:'ডেলিভারি দ্রুত পেয়েছি, প্রোডাক্টের কোয়ালিটি ভালো। একটু ভারী মনে হয়েছে, কিন্তু কাজ নিখুঁত।'},{name:'ফারহান আহমেদ',location:'সিলেট',stars:5,text:'গেম খেলার সময় লোডশেডিংয়ে আর ডিসকানেক্ট হচ্ছি না! খুবই ভালো একটা প্রোডাক্ট।'},{name:'সুমাইয়া আক্তার',location:'ময়মনসিংহ',stars:5,text:'অর্ডার করা খুব সহজ ছিল, ফোনে কনফার্মেশন কলও পেয়েছি। পণ্যটা দারুণ কাজ করছে।'}],
+faq:[{q:'ডেলিভারি কতদিনের মধ্যে পাবো?',a:'ঢাকার ভেতরে ১-২ দিন এবং ঢাকার বাইরে ২-৪ দিনের মধ্যে হোম ডেলিভারি হয়ে যায়। অর্ডারের পর ফোনে কনফার্মেশন কল দিয়ে জানিয়ে দেওয়া হবে।'},{q:'ক্যাশ অন ডেলিভারি কীভাবে কাজ করে?',a:'পণ্য হাতে পেয়ে ভালো করে দেখে তারপর টাকা পরিশোধ করবেন। আগে কোনো টাকা পাঠাতে হবে না — ১০০% নিরাপদ।'},{q:'কতক্ষণে ব্যাটারি ফুল চার্জ হয়?',a:'সাধারণত ৩-৪ ঘণ্টায় ফুল চার্জ হয়ে যায় এবং সেই চার্জে রাউটার+ONU ১০-১২ ঘণ্টা চলতে পারে (ব্যবহারের উপর নির্ভরশীল)।'},{q:'কোন কোন ডিভাইসে ব্যবহার করা যাবে?',a:'যেকোনো WiFi রাউটার, ONU/ONT, IP ক্যামেরা বা ছোট ডিভাইসের সাথে ব্যবহার করা যাবে।'},{q:'রাউটার ও ONU একসাথে চালাবে তো?',a:'হ্যাঁ, এই UPS-এ দুইটা আউটপুট পোর্ট আছে — রাউটার ও ONU একসাথে সহজেই চলবে।'},{q:'প্রোডাক্টে সমস্যা হলে কী করবো?',a:'৩০ দিনের ওয়ারেন্টি ও ৭ দিনের ইনস্ট্যান্ট রিপ্লেসমেন্ট গ্যারান্টি আছে। হোয়াটসঅ্যাপে মেসেজ দিলেই ব্যবস্থা নেওয়া হবে।'},{q:'অর্ডার করার পর কীভাবে কনফার্ম হবে?',a:'অর্ডার ফর্ম পূরণ করার সাথে সাথেই আমাদের WhatsApp-এ অর্ডারের বিস্তারিত মেসেজ আসবে। এরপর ফোন/ইমেইলে কনফার্মেশন পাবেন।'},{q:'পেমেন্ট কীভাবে করবো?',a:'শুধুমাত্র ক্যাশ অন ডেলিভারি — পণ্য হাতে পেয়ে টাকা দেবেন। কোনো অগ্রিম পেমেন্ট লাগবে না।'}],
+support:{whatsapp:'8801327268714',buttonText:'হোয়াটসঅ্যাপে অর্ডার/জানতে মেসেজ দিন'},
 shipping:{inside:70,outside:130},
-geo:{districts:['ঢাকা','চট্টগ্রাম','রাজশাহী','খুলনা','সিলেট','বরিশাল','রংপুর','ময়মনসিংহ'],thanas:{
-'ঢাকা':['ধানমন্ডি','গুলশান','বনানী','মিরপুর','মোহাম্মদপুর','উত্তরা','সাভার','আশুলিয়া'],
-'চট্টগ্রাম':['কোতোয়ালী','পাঁচলাইশ','চান্দগাঁও','পতেঙ্গা','হালিশহর','সীতাকুণ্ড','রাউজান'],
-'রাজশাহী':['বোয়ালিয়া','মতিহার','রাজপাড়া','পবা','গোদাগাড়ি','তানোর'],
-'খুলনা':['সোনাডাঙ্গা','খালিশপুর','দৌলতপুর','রূপসা','ডুমুরিয়া','ফুলতলা'],
-'সিলেট':['সিলেট সদর','দক্ষিণ সুরমা','বিয়ানীবাজার','গোলাপগঞ্জ','জকিগঞ্জ'],
-'বরিশাল':['কোতোয়ালী','বন্দর','বাবুগঞ্জ','বাকেরগঞ্জ','মুলাদী'],
-'রংপুর':['কোতোয়ালী','হারাগাছ','তাজহাট','বদরগঞ্জ','মিঠাপুকুর'],
-'ময়মনসিংহ':['কোতোয়ালী','মুক্তাগাছা','ভালুকা','ত্রিশাল','গফরগাঁও','ফুলপুর']}},
+geo:{districts:['সিরাজগঞ্জ','ঢাকা','চট্টগ্রাম','রাজশাহী','খুলনা','সিলেট','বরিশাল','রংপুর','ময়মনসিংহ'],thanas:{
+'সিরাজগঞ্জ':['সিরাজগঞ্জ সদর','উল্লাপাড়া','শাহজাদপুর','বেলকুচি','চৌহালী','কাজীপুর','রায়গঞ্জ','তাড়াশ','কামারখন্দ','এনায়েতপুর'],
+'ঢাকা':['ধানমন্ডি','গুলশান','বনানী','মিরপুর','মোহাম্মদপুর','উত্তরা','লালবাগ','মতিঝিল','রমনা','তেজগাঁও','সাভার','কেরানীগঞ্জ','আশুলিয়া'],
+'চট্টগ্রাম':['কোতোয়ালী','পাঁচলাইশ','চান্দগাঁও','ডবলমুরিং','বন্দর','পতেঙ্গা','হালিশহর','সীতাকুণ্ড','মীরসরাই','পটিয়া','রাউজান','ফটিকছড়ি','সাতকানিয়া','আনোয়ারা','কর্ণফুলী'],
+'রাজশাহী':['বোয়ালিয়া','মতিহার','রাজপাড়া','পবা','গোদাগাড়ি','তানোর','বাগমারা','দুর্গাপুর','পুঠিয়া','চারঘাট','বাঘা'],
+'খুলনা':['সোনাডাঙ্গা','খালিশপুর','দৌলতপুর','খানজাহান আলী','রূপসা','তেরখাদা','ডুমুরিয়া','পাইকগাছা','দাকোপ','ফুলতলা'],
+'সিলেট':['সিলেট সদর','দক্ষিণ সুরমা','বিয়ানীবাজার','গোলাপগঞ্জ','জকিগঞ্জ','কানাইঘাট','ফেঞ্চুগঞ্জ','বালাগঞ্জ','গোয়াইনঘাট','ওসমানীনগর'],
+'বরিশাল':['কোতোয়ালী','বন্দর','বাবুগঞ্জ','বাকেরগঞ্জ','মুলাদী','গৌরনদী','হিজলা','মেহেন্দিগঞ্জ','উজিরপুর','বানারীপাড়া'],
+'রংপুর':['কোতোয়ালী','হারাগাছ','তাজহাট','বদরগঞ্জ','মিঠাপুকুর','পীরগঞ্জ','পীরগাছা','কাউনিয়া','গংগাচড়া'],
+'ময়মনসিংহ':['কোতোয়ালী','মুক্তাগাছা','ভালুকা','ত্রিশাল','গফরগাঁও','ঈশ্বরগঞ্জ','নান্দাইল','ফুলবাড়িয়া','গৌরীপুর','ফুলপুর']}},
+stats:[{value:'৫,০০০+',label:'সন্তুষ্ট কাস্টমার'},{value:'৪.৮/৫',label:'গড় রেটিং'},{value:'৬৪',label:'জেলায় ডেলিভারি'},{value:'৩০ দিন',label:'ওয়ারেন্টি'}],
+boxContents:['WGP 10400mAh Mini UPS ডিভাইস','পাওয়ার অ্যাডাপ্টার','রাউটার/ONU সংযোগ ক্যাবল','ব্যবহারের সহজ বাংলা গাইড','৩০ দিনের ওয়ারেন্টি কার্ড'],
+steps:[{icon:'📝',title:'অর্ডার ফর্ম পূরণ করুন',text:'নাম, মোবাইল নম্বর ও ঠিকানা দিয়ে অর্ডার করুন — মাত্র ১ মিনিট।'},{icon:'📞',title:'ফোনে কনফার্মেশন',text:'আমাদের টিম কল করে অর্ডার কনফার্ম করবে — কোনো ঝামেলা ছাড়াই।'},{icon:'🚚',title:'ক্যাশ অন ডেলিভারি',text:'ঘরে পণ্য পেয়ে দেখে নিন, তারপর টাকা দিন। ১০০% নিরাপদ।'}],
+stockLeft:{total:100,left:17},
+whyUs:[{icon:'🏭',title:'অরিজিনাল প্রোডাক্ট',text:'১০০% ব্র্যান্ড-নিউ, সিল করা প্যাকেজে অরিজিনাল পণ্য।'},{icon:'🛡️',title:'৩০ দিনের ওয়ারেন্টি',text:'কোনো সমস্যা হলে সহজে রিপ্লেসমেন্ট — নিশ্চিন্তে কিনুন।'},{icon:'🚚',title:'সারাদেশে দ্রুত ডেলিভারি',text:'ঢাকায় ১-২ দিন, ঢাকার বাইরে ২-৪ দিনে ডেলিভারি।'},{icon:'💬',title:'বিক্রয়োত্তর সাপোর্ট',text:'কেনার পরও হোয়াটসঅ্যাপে যেকোনো প্রশ্নে আমরা আছি।'}],
+comparison:{title:'WGP Mini UPS কেন দরকার?',rows:[{label:'লোডশেডিংয়ে ইন্টারনেট',without:'🔴 বন্ধ হয়ে যায়',with:'🟢 ১০-১২ ঘণ্টা চলতে থাকে'},{label:'অফিস/কাজ',without:'কাজ থেমে যায়, ক্ষতি',with:'নিরবচ্ছিন্ন কাজ'},{label:'গেম/স্ট্রিমিং',without:'মাঝপথে ডিসকানেক্ট',with:'অবিরাম কানেকশন'},{label:'রাউটার + ONU',without:'দুইটাই অকেজো',with:'একসাথে দুইটাই চলে'},{label:'ভবিষ্যৎ খরচ',without:'বারবার নষ্ট হওয়া ডিভাইস কেনা',with:'একবার কিনুন, বছরের পর বছর'}]},
+floatingWhatsApp:true,
+orderPopup:{show:true,intervalSec:40,messages:[{name:'সামিয়া আক্তার',location:'সিরাজগঞ্জ',time:'২ মিনিট আগে'},{name:'রফিকুল ইসলাম',location:'ঢাকা',time:'৫ মিনিট আগে'},{name:'নাজমুল হাসান',location:'চট্টগ্রাম',time:'৮ মিনিট আগে'},{name:'মেহেদী হাসান',location:'উল্লাপাড়া',time:'১২ মিনিট আগে'},{name:'ফারজানা ইয়াসমিন',location:'রাজশাহী',time:'১৫ মিনিট আগে'}]},
 tracking:{pixelId:''},
 formspree:{endpoint:'https://formspree.io/f/mrpzlgdl',active:true},
 theme:{primary:'#1d4ed8',primaryDark:'#1e40af',priceColor:'#dc2626',btnFrom:'#22c55e',btnTo:'#15803d'},
-sections:{showBanner:true,showTimer:true,showBadges:true,showFeatures:true,showReviews:true,showSupport:true,showFaq:true,showSticky:true},
-seo:{title:'WGP 10400mAh Mini UPS — মাত্র ৳ ২০৯৯ | ক্যাশ অন ডেলিভারি',description:'লোডশেডিংয়েও ১০-১২ ঘণ্টা নিরবচ্ছিন্ন হাই-স্পিড ইন্টারনেট! ক্যাশ অন ডেলিভারি।',ogImage:'https://wgp-ups.vercel.app/product.jpg'},
+sections:{showBanner:true,showTimer:true,showBadges:true,showFeatures:true,showReviews:true,showSupport:true,showFaq:true,showSticky:true,showStats:true,showBox:true,showSteps:true,showStock:true,showWhyUs:true,showComparison:true,showFloatingWa:true,showOrderPopup:true},
+seo:{title:'WGP 10400mAh Mini UPS — মাত্র ৳ ২০৯৯ | ক্যাশ অন ডেলিভারি',description:'লোডশেডিংয়েও ১০-১২ ঘণ্টা নিরবচ্ছিন্ন হাই-স্পিড ইন্টারনেট! WGP 10400mAh Mini UPS মাত্র ৳ ২০৯৯ — রাউটার+ONU একসাথে, ৩০ দিন ওয়ারেন্টি, সারাদেশে ক্যাশ অন ডেলিভারি।',ogImage:'https://wgp-ups.vercel.app/product.jpg'},
 message:{template:'🛒 *নতুন অর্ডার — {product}*\n━━━━━━━━━━━━━━━\n👤 নাম: {name}\n📞 মোবাইল: {phone}\n📍 জেলা: {district}\n🏢 থানা/উপজেলা: {thana}\n🏠 ঠিকানা: {area}\n━━━━━━━━━━━━━━━\n📦 পণ্য: {product} × {qty}\n🚚 ডেলিভারি: {shipping}\n💰 সর্বমোট: {total}\n💵 পেমেন্ট: ক্যাশ অন ডেলিভারি\n━━━━━━━━━━━━━━━\n🆔 অর্ডার আইডি: #{oid}'},
 custom:{css:''},
 footer:'© 2026 WGP Mini UPS BD. সর্বস্বত্ব সংরক্ষিত।'};
@@ -244,7 +332,7 @@ footer:'© 2026 WGP Mini UPS BD. সর্বস্বত্ব সংরক্�
 var $=function(id){return document.getElementById(id)};
 var BN='০১২৩৪৫৬৭৮৯';
 function toBn(n){return String(n).replace(/[0-9]/g,function(d){return BN[d]})}
-function money(n){return '৳ '+toBn(n)}
+function money(n){return '৳ '+Number(n||0).toLocaleString('en-US')}
 function deepMerge(base,extra){for(var k in extra){if(extra[k]&&typeof extra[k]==='object'&&!Array.isArray(extra[k])){if(!base[k]||typeof base[k]!=='object'||Array.isArray(base[k]))base[k]={};deepMerge(base[k],extra[k])}else base[k]=extra[k]}return base}
 var data=JSON.parse(JSON.stringify(DEFAULTS));
 
@@ -288,29 +376,36 @@ function render(){
     localStorage.setItem('wgp_timer',tl);
     setInterval(function(){
       var d=Math.max(0,parseInt(localStorage.getItem('wgp_timer')||tl)-Date.now());
-      $('tD').textContent=toBn(Math.floor(d/864e5));
-      $('tH').textContent=toBn(Math.floor(d/36e5)%24);
-      $('tM').textContent=toBn(Math.floor(d/6e4)%60);
-      $('tS').textContent=toBn(Math.floor(d/1e3)%60);
+      $('tD').textContent=String(Math.floor(d/864e5));
+      $('tH').textContent=String(Math.floor(d/36e5)%24);
+      $('tM').textContent=String(Math.floor(d/6e4)%60);
+      $('tS').textContent=String(Math.floor(d/1e3)%60);
     },1000);
   } else $('timerCard').style.display='none';
+
+  /* স্টক সেকশন */
+  var sl=data.stockLeft;
+  if(sl&&data.sections.showStock){
+    var left=Math.max(0,sl.left||0),total=Math.max(1,sl.total||100);
+    $('stockLeft').textContent=String(left);
+    var pct=Math.round(left/total*100);
+    $('stockPct').textContent=String(pct)+'% বাকি';
+    $('stockFill').style.width=pct+'%';
+    $('stockNote').textContent='⚡ অফার শেষ হওয়ার আগেই অর্ডার করুন — ক্যাশ অন ডেলিভারি!';
+  } else $('stockBar').style.display='none';
 
   /* প্রোডাক্ট */
   var p=data.product;
   $('productTitle').textContent=p.title;
   $('productSubtitle').textContent=p.subtitle;
   $('oldPrice').textContent=money(p.originalPrice);
-  $('offerPrice').textContent=toBn(p.offerPrice);
+  $('offerPrice').textContent=Number(p.offerPrice).toLocaleString('en-US');
   $('discountBadge').textContent=p.badge||(p.discountPercent+'% ছাড়!');
   var pi=$('productImg');pi.src=p.image;
   pi.onerror=function(){if(p.fallbackImage)this.src=p.fallbackImage};
   $('prodName').textContent=p.name;
   $('prodPrice').textContent=money(p.offerPrice)+' (ক্যাশ অন ডেলিভারি)';
   document.title=(data.seo&&data.seo.title)?data.seo.title:(p.name+' — মাত্র ৳ '+p.offerPrice);
-  var so=data.seo||{};
-  if(so.title){$('metaTitle').textContent=so.title;$('ogTitle').setAttribute('content',so.title);}
-  if(so.description){$('metaDesc').setAttribute('content',so.description);$('ogDesc').setAttribute('content',so.description);}
-  if(so.ogImage)$('ogImage').setAttribute('content',so.ogImage);
 
   /* গ্যারান্টি ব্যাজ */
   var bd=$('badges');bd.innerHTML='';
@@ -319,10 +414,34 @@ function render(){
   });
   if(!data.sections.showBadges)bd.style.display='none';
 
+  /* স্ট্যাটস স্ট্রিপ */
+  var ss=$('statsStrip');ss.innerHTML='';
+  (data.stats||[]).forEach(function(s){
+    var d=document.createElement('div');d.className='stat-item';
+    d.innerHTML='<div class="stat-value">'+s.value+'</div><div class="stat-label">'+s.label+'</div>';
+    ss.appendChild(d);
+  });
+  if(!data.sections.showStats)ss.style.display='none';
+
   /* ফিচার */
   var fl=$('featList');fl.innerHTML='';
   (data.features||[]).forEach(function(f){var li=document.createElement('li');li.textContent=f;fl.appendChild(li)});
   $('secFeatures').style.display=data.sections.showFeatures?'':'none';
+
+  /* বক্স কনটেন্ট */
+  var bl=$('boxList');bl.innerHTML='';
+  (data.boxContents||[]).forEach(function(b){var li=document.createElement('li');li.textContent=b;bl.appendChild(li)});
+  $('secBox').style.display=data.sections.showBox?'':'none';
+
+  /* কম্পারিজন */
+  var cmp=data.comparison;
+  if(cmp&&data.sections.showComparison){
+    $('cmpTitle').textContent=cmp.title||'WGP Mini UPS কেন দরকার?';
+    var rows=cmp.rows||[];
+    var html='<tr><th>দিক</th><th>UPS ছাড়া</th><th>UPS সহ</th></tr>';
+    rows.forEach(function(r){html+='<tr><td>'+r.label+'</td><td>'+r.without+'</td><td>'+r.with+'</td></tr>'});
+    $('cmpTable').innerHTML=html;
+  } else $('secComparison').style.display='none';
 
   /* রিভিউ */
   var rv=$('reviews');rv.innerHTML='';
@@ -335,6 +454,24 @@ function render(){
   });
   $('secReviews').style.display=data.sections.showReviews?'':'none';
 
+  /* ওয়াই ইউজ (ট্রাস্ট) */
+  var wg=$('whyGrid');wg.innerHTML='';
+  (data.whyUs||[]).forEach(function(w){
+    var d=document.createElement('div');d.className='why-item';
+    d.innerHTML='<div class="w-icon">'+w.icon+'</div><div class="w-title">'+w.title+'</div><div class="w-text">'+w.text+'</div>';
+    wg.appendChild(d);
+  });
+  $('secWhyUs').style.display=data.sections.showWhyUs?'':'none';
+
+  /* অর্ডার স্টেপস */
+  var st=$('steps');st.innerHTML='';
+  (data.steps||[]).forEach(function(s,i){
+    var d=document.createElement('div');d.className='step-item';
+    d.innerHTML='<div class="step-num">'+toBn(i+1)+'</div><div><b>'+s.icon+' '+s.title+'</b><p>'+s.text+'</p></div>';
+    st.appendChild(d);
+  });
+  $('secSteps').style.display=data.sections.showSteps?'':'none';
+
   /* সাপোর্ট */
   var wa=data.support;
   $('waBtn').textContent=wa.buttonText;
@@ -343,6 +480,12 @@ function render(){
   if(waOk){$('waBtn').href='https://wa.me/'+waNum+'?text='+encodeURIComponent('আসসালামু আলাইকুম, '+p.name+' সম্পর্কে জানতে চাই।');$('waBtn').style.display='';}
   else{$('waBtn').style.display='none';$('waBtn').previousElementSibling.style.display='none';}
   $('secSupport').style.display=data.sections.showSupport?'':'none';
+
+  /* ফ্লোটিং ওয়াটসঅ্যাপ */
+  if(waOk&&data.sections.showFloatingWa!==false&&data.floatingWhatsApp!==false){
+    $('waFab').href='https://wa.me/'+waNum+'?text='+encodeURIComponent('আসসালামু আলাইকুম, '+p.name+' সম্পর্কে জানতে চাই।');
+    $('waFab').style.display='flex';
+  } else $('waFab').style.display='none';
 
   /* FAQ */
   var fq=$('faq');fq.innerHTML='';
@@ -371,7 +514,7 @@ function render(){
   function shipCost(){return shipType==='inside'?data.shipping.inside:data.shipping.outside}
   function updTotal(){
     var st=p.offerPrice*qty,sc=shipCost();
-    $('qty').textContent=toBn(qty);
+    $('qty').textContent=String(qty);
     $('subtotal').textContent=money(st);
     $('shipCost').textContent=money(sc);
     var total=st+sc;
@@ -383,8 +526,8 @@ function render(){
   document.querySelectorAll('input[name=shipping]').forEach(function(r){
     r.addEventListener('change',function(){shipType=this.value;updTotal()});
   });
-  $('shipInside').textContent='ঢাকার ভিতরে ডেলিভারি — <b>৳ '+toBn(data.shipping.inside)+'</b>';
-  $('shipOutside').textContent='ঢাকার বাইরে ডেলিভারি — <b>৳ '+toBn(data.shipping.outside)+'</b>';
+  $('shipInside').innerHTML='ঢাকার ভিতরে ডেলিভারি — <b>৳ '+Number(data.shipping.inside).toLocaleString('en-US')+'</b>';
+  $('shipOutside').innerHTML='ঢাকার বাইরে ডেলিভারি — <b>৳ '+Number(data.shipping.outside).toLocaleString('en-US')+'</b>';
   updTotal();
   $('stickyBar').style.display=data.sections.showSticky?'flex':'none';
 
@@ -409,10 +552,10 @@ function render(){
     var oid=Math.floor(100000+Math.random()*900000);
     var total=p.offerPrice*qty+shipCost();
     var msg=(data.message&&data.message.template||'').replace(/\{product\}/g,p.name)
-      .replace(/\{qty\}/g,toBn(qty)).replace(/\{name\}/g,name)
+      .replace(/\{qty\}/g,qty).replace(/\{name\}/g,name)
       .replace(/\{phone\}/g,phone).replace(/\{district\}/g,district)
       .replace(/\{thana\}/g,thana).replace(/\{area\}/g,area)
-      .replace(/\{shipping\}/g,shipType==='inside'?'ঢাকার ভিতরে (৳'+toBn(data.shipping.inside)+')':'ঢাকার বাইরে (৳'+toBn(data.shipping.outside)+')')
+      .replace(/\{shipping\}/g,shipType==='inside'?'ঢাকার ভিতরে (৳'+Number(data.shipping.inside).toLocaleString('en-US')+')':'ঢাকার বাইরে (৳'+Number(data.shipping.outside).toLocaleString('en-US')+')')
       .replace(/\{total\}/g,money(total))
       .replace(/\{oid\}/g,oid);
     var fs=(data.formspree&&data.formspree.endpoint)||'';
@@ -437,6 +580,38 @@ function render(){
 
   /* ফুটার */
   $('footer').textContent=data.footer||'';
+
+  /* অর্ডার পপআপ (সোশ্যাল প্রুফ) */
+  var op=data.orderPopup;
+  if(op&&op.show&&data.sections.showOrderPopup!==false&&op.messages&&op.messages.length){
+    var to=$('orderToast'),i=0,opInt=Math.max(20,(op.intervalSec||40)*1000);
+    function showToast(){
+      var m=op.messages[i%op.messages.length];i++;
+      $('otAva').textContent=(m.name||'কাস্টমার').charAt(0);
+      $('otText').textContent='🛒 '+(m.name||'কাস্টমার')+(m.location?' ('+m.location+')':'');
+      $('otSub').textContent='এইমাত্র অর্ডার করেছেন — '+m.time;
+      to.classList.add('show');
+      setTimeout(function(){to.classList.remove('show')},4500);
+    }
+    setTimeout(showToast,5000);
+    setInterval(showToast,opInt);
+  }
+
+  /* JSON-LD প্রোডাক্ট স্কিমা */
+  try{
+    if(!document.getElementById('ldJson')){
+      var ld=document.createElement('script');ld.id='ldJson';ld.type='application/ld+json';
+      ld.textContent=JSON.stringify({
+        '@context':'https://schema.org/','@type':'Product',
+        'name':p.name,'image':data.seo.ogImage||(location.origin+'/product.jpg'),
+        'description':(data.seo&&data.seo.description)||p.subtitle,
+        'brand':{'@type':'Brand','name':data.brand.name},
+        'aggregateRating':{'@type':'AggregateRating','ratingValue':'4.8','reviewCount':'500'},
+        'offers':{'@type':'Offer','priceCurrency':'BDT','price':p.offerPrice,'availability':'https://schema.org/InStock'}
+      });
+      document.head.appendChild(ld);
+    }
+  }catch(e){}
 }
 
 /* ডেটা লোড: data.json → localStorage → ডিফল্ট */
